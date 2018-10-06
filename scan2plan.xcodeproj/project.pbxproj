@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3755F5BD2169464500B04493 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3755F5BC2169464500B04493 /* ProfileViewController.swift */; };
 		AEDCE53D21693C23003C260D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEDCE53C21693C23003C260D /* AppDelegate.swift */; };
 		AEDCE53F21693C23003C260D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEDCE53E21693C23003C260D /* ViewController.swift */; };
 		AEDCE54221693C23003C260D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AEDCE54021693C23003C260D /* Main.storyboard */; };
@@ -34,6 +35,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3755F5BC2169464500B04493 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		AEDCE53921693C23003C260D /* scan2plan.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = scan2plan.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AEDCE53C21693C23003C260D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AEDCE53E21693C23003C260D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -99,6 +101,7 @@
 			children = (
 				AEDCE53C21693C23003C260D /* AppDelegate.swift */,
 				AEDCE53E21693C23003C260D /* ViewController.swift */,
+				3755F5BC2169464500B04493 /* ProfileViewController.swift */,
 				AEDCE54021693C23003C260D /* Main.storyboard */,
 				AEDCE54321693C24003C260D /* Assets.xcassets */,
 				AEDCE54521693C24003C260D /* LaunchScreen.storyboard */,
@@ -256,6 +259,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3755F5BD2169464500B04493 /* ProfileViewController.swift in Sources */,
 				AEDCE53F21693C23003C260D /* ViewController.swift in Sources */,
 				AEDCE53D21693C23003C260D /* AppDelegate.swift in Sources */,
 			);
