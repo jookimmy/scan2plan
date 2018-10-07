@@ -65,7 +65,7 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
     
      override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        previewLayer.frame = previewLayer.bounds
+//        previewLayer.frame = previewLayer.bounds
      }
  
     
