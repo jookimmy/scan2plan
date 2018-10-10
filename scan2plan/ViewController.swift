@@ -16,16 +16,31 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
     var captureSession: AVCaptureSession!
     var photoOutput = AVCapturePhotoOutput()
     var previewLayer: AVCaptureVideoPreviewLayer!
+    internal var previewView: UIView?
     
     //MARK: Outlets
-    @IBOutlet weak var cameraView: UIView!
+    @IBOutlet weak var cameraRollButton: UIButton!
+    @IBOutlet weak var profileButton: UIButton!
+    @IBOutlet weak var flashButton: UIButton!
+    @IBOutlet weak var flipCameraButton: UIButton!
+    @IBOutlet weak var capturePhotoButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let myBounds = self.view.bounds
+        let bounds:CGRect = self.view.layer.bounds
         
+        self.previewView = UIView(frame: bounds)
+        
+        if let previewView = self.previewView {
+            self.view.addSubview(previewView)
+            self.previewView?.sendSubviewToBack(self.view)
+        } else {
+            print("previewView not added")
+        }
+
         captureSession = AVCaptureSession()
+        captureSession.beginConfiguration()
         captureSession.sessionPreset = AVCaptureSession.Preset.photo
         
         //Ask permission to camera
@@ -46,8 +61,10 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
                             print("yeah3")
                             self.captureSession.addOutput(self.photoOutput)
                             self.previewLayer = AVCaptureVideoPreviewLayer(session: self.captureSession)
-                            self.previewLayer.frame = myBounds
-                            self.cameraView.layer.addSublayer(self.previewLayer)
+                            self.previewLayer?.videoGravity = AVLayerVideoGravity.resizeAspectFill
+                            self.previewLayer?.bounds = bounds
+                            self.previewLayer?.position = CGPoint(x: bounds.midX, y: bounds.midY)
+                            self.previewView?.layer.addSublayer(self.previewLayer)
                             self.captureSession.startRunning()
                             print("Session is running")
                         }
@@ -59,13 +76,32 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
                 print("Goodbye")
             }
         })
+        captureSession.commitConfiguration()
         
+        // setup UI, location of buttons
         
+        // lower buttons
+        self.capturePhotoButton.frame = CGRect(x: bounds.width/2 - bounds.width/12, y: (bounds.height * 8.5)/10, width: bounds.width/6, height: bounds.width/6)
+        self.view.addSubview(capturePhotoButton)
+        
+        self.flipCameraButton.frame = CGRect(x: bounds.width/5 - bounds.width/20, y: (bounds.height * 8.5)/10, width: bounds.width/10, height: bounds.width/10)
+        self.view.addSubview(flipCameraButton)
+        
+        self.flashButton.frame = CGRect(x: (bounds.width*4)/5 - bounds.width/20, y: (bounds.height * 8.5)/10, width: bounds.width/10, height: bounds.width/10)
+        self.view.addSubview(flashButton)
+        
+        // upper buttons
+        
+        self.profileButton.frame = CGRect(x: bounds.width/12, y: (bounds.height)/12, width: bounds.width/9, height: bounds.width/9)
+        self.view.addSubview(profileButton)
+        
+        self.cameraRollButton.frame = CGRect(x: (bounds.width*11)/12 - bounds.width/18, y: (bounds.height)/12, width: bounds.width/9, height: bounds.width/9)
+        self.view.addSubview(cameraRollButton)
     }
     
      override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        previewLayer.frame = previewLayer.bounds
+//        previewLayer.frame = self.view.bounds
      }
  
     

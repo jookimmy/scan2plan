@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -34,16 +33,8 @@
                                     <action selector="useFlash:" destination="BYZ-38-t0r" eventType="touchUpInside" id="YHs-Ze-N38"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mTy-mp-u9Z">
-                                <rect key="frame" x="14" y="20" width="92" height="91"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" image="profile"/>
-                                <connections>
-                                    <segue destination="KRC-er-KZq" kind="show" id="fQe-kn-OgP"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u0t-6K-pdj">
-                                <rect key="frame" x="319" y="36" width="73" height="75"/>
+                                <rect key="frame" x="308" y="36" width="73" height="75"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" image="importFromCameraRoll"/>
                                 <connections>
@@ -58,14 +49,29 @@
                                     <action selector="takePhoto:" destination="BYZ-38-t0r" eventType="touchUpInside" id="asJ-Q4-wpt"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mTy-mp-u9Z">
+                                <rect key="frame" x="36" y="36" width="70" height="75"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="profile"/>
+                                <connections>
+                                    <segue destination="KRC-er-KZq" kind="show" id="fQe-kn-OgP"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
+                    <connections>
+                        <outlet property="cameraRollButton" destination="u0t-6K-pdj" id="Ama-Hm-ybu"/>
+                        <outlet property="capturePhotoButton" destination="KZM-lu-oEW" id="i5Z-c4-SzI"/>
+                        <outlet property="flashButton" destination="y9a-EG-FZb" id="JCU-jX-MgP"/>
+                        <outlet property="flipCameraButton" destination="oa0-jx-JnC" id="yyS-bs-TTO"/>
+                        <outlet property="profileButton" destination="mTy-mp-u9Z" id="AEx-RZ-Uxf"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-159.42028985507247" y="-8.9673913043478262"/>
+            <point key="canvasLocation" x="-110.14492753623189" y="10.597826086956523"/>
         </scene>
         <!--ProfileViewController-->
         <scene sceneID="Fgi-nf-Cax">
@@ -87,7 +93,7 @@
         <image name="camerabutton" width="440" height="439"/>
         <image name="flash" width="512" height="512"/>
         <image name="importFromCameraRoll" width="720" height="720"/>
-        <image name="profile" width="512" height="512"/>
+        <image name="profile" width="296" height="296"/>
         <image name="switchCameraOrientation" width="200" height="200"/>
     </resources>
 </document>
