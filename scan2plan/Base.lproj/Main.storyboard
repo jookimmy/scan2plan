@@ -33,12 +33,12 @@
                                     <action selector="useFlash:" destination="BYZ-38-t0r" eventType="touchUpInside" id="YHs-Ze-N38"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mTy-mp-u9Z">
-                                <rect key="frame" x="14" y="20" width="92" height="91"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u0t-6K-pdj">
+                                <rect key="frame" x="308" y="36" width="73" height="75"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" image="profile"/>
+                                <state key="normal" image="importFromCameraRoll"/>
                                 <connections>
-                                    <segue destination="KRC-er-KZq" kind="show" id="fQe-kn-OgP"/>
+                                    <action selector="importFromCameraRoll:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ZGO-L7-TVK"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KZM-lu-oEW">
@@ -49,12 +49,12 @@
                                     <action selector="takePhoto:" destination="BYZ-38-t0r" eventType="touchUpInside" id="asJ-Q4-wpt"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u0t-6K-pdj">
-                                <rect key="frame" x="308" y="36" width="73" height="75"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mTy-mp-u9Z">
+                                <rect key="frame" x="36" y="36" width="70" height="75"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" image="importFromCameraRoll"/>
+                                <state key="normal" image="profile"/>
                                 <connections>
-                                    <action selector="importFromCameraRoll:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ZGO-L7-TVK"/>
+                                    <segue destination="KRC-er-KZq" kind="show" id="fQe-kn-OgP"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -62,12 +62,16 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
-                        <outlet property="cameraView" destination="8bC-Xf-vdC" id="u25-WL-HEj"/>
+                        <outlet property="cameraRollButton" destination="u0t-6K-pdj" id="Ama-Hm-ybu"/>
+                        <outlet property="capturePhotoButton" destination="KZM-lu-oEW" id="i5Z-c4-SzI"/>
+                        <outlet property="flashButton" destination="y9a-EG-FZb" id="JCU-jX-MgP"/>
+                        <outlet property="flipCameraButton" destination="oa0-jx-JnC" id="yyS-bs-TTO"/>
+                        <outlet property="profileButton" destination="mTy-mp-u9Z" id="AEx-RZ-Uxf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-159.42028985507247" y="-8.9673913043478262"/>
+            <point key="canvasLocation" x="-110.14492753623189" y="10.597826086956523"/>
         </scene>
         <!--ProfileViewController-->
         <scene sceneID="Fgi-nf-Cax">
@@ -89,7 +93,7 @@
         <image name="camerabutton" width="440" height="439"/>
         <image name="flash" width="512" height="512"/>
         <image name="importFromCameraRoll" width="720" height="720"/>
-        <image name="profile" width="512" height="512"/>
+        <image name="profile" width="296" height="296"/>
         <image name="switchCameraOrientation" width="200" height="200"/>
     </resources>
 </document>
