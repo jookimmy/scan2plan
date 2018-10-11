@@ -134,27 +134,34 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
     @IBAction func switchCameraOrientation(_ sender: UIButton) {
         if self.backCamera {
             captureSession.beginConfiguration()
+            for input in captureSession!.inputs {
+                captureSession!.removeInput(input)
+            }
             let discoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera], mediaType: AVMediaType.video, position: .front)
             let devices = discoverySession.devices
             let device = devices.first
             if let input = try? AVCaptureDeviceInput(device: device!) {
-                print("yeah")
+                print("allowed new input")
                 if (self.captureSession.canAddInput(input)) {
                     self.captureSession.addInput(input)
-                    print("woohoo")
+                    print("switched camera")
                     self.backCamera = false
                 }
             }
             captureSession.commitConfiguration()
         } else {
             captureSession.beginConfiguration()
+            for input in captureSession!.inputs {
+                captureSession!.removeInput(input)
+            }
             let discoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera, .builtInDualCamera, .builtInTrueDepthCamera], mediaType: AVMediaType.video, position: .back)
             let devices = discoverySession.devices
             let device = devices.first
             if let input = try? AVCaptureDeviceInput(device: device!) {
-                print("yeah")
+                print("allowed new input")
                 if (self.captureSession.canAddInput(input)) {
                     self.captureSession.addInput(input)
+                    print("switched camera")
                     self.backCamera = true
                 }
             }
