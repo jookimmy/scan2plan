@@ -13,9 +13,11 @@ import Photos
 
 class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
     
+    // Properties
     var captureSession: AVCaptureSession!
     var photoOutput = AVCapturePhotoOutput()
     var previewLayer: AVCaptureVideoPreviewLayer!
+    // view that will contain our camera
     internal var previewView: UIView?
     
     var backCamera = true
@@ -34,13 +36,14 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
         
         self.previewView = UIView(frame: bounds)
         
+        // this runs only if previewView isn't nil, needed because we defined previewView as optional
         if let previewView = self.previewView {
             self.view.addSubview(previewView)
             self.previewView?.sendSubviewToBack(self.view)
         } else {
             print("previewView not added")
         }
-
+        
         captureSession = AVCaptureSession()
         captureSession.beginConfiguration()
         captureSession.sessionPreset = AVCaptureSession.Preset.photo
@@ -50,6 +53,8 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
         
         let devices = discoverySession.devices
         let device = devices.first
+        
+        // makes sure that user has given permission for app to access the camera, if not, requests access in form of popup (this is handled in info.plist)
         AVCaptureDevice.requestAccess(for: AVMediaType.video, completionHandler: { (granted: Bool) in
             if granted {
                 print("granted")
@@ -63,10 +68,13 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
                             print("added output")
                             self.captureSession.addOutput(self.photoOutput)
                             self.previewLayer = AVCaptureVideoPreviewLayer(session: self.captureSession)
+                            // makes it so that camera fills up screen
                             self.previewLayer?.videoGravity = AVLayerVideoGravity.resizeAspectFill
                             self.previewLayer?.bounds = bounds
                             self.previewLayer?.position = CGPoint(x: bounds.midX, y: bounds.midY)
+                            // adds the preview layer to preview view (which will later be added to view)
                             self.previewView?.layer.addSublayer(self.previewLayer)
+                            // starts the captureSession! :)
                             self.captureSession.startRunning()
                             print("Session is running")
                         }
@@ -132,28 +140,49 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
     
     // switch from selfie to back camera
     @IBAction func switchCameraOrientation(_ sender: UIButton) {
+        
+        // checks which camera the app is currently using (front or back)
         if self.backCamera {
+            // we're currently using the back camera, so we want to switch to the front
+            // begins changing the capture session
             captureSession.beginConfiguration()
+            // removes previous captureSession inputs
             for input in captureSession!.inputs {
                 captureSession!.removeInput(input)
             }
+            // creates new discoverySession
             let discoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera], mediaType: AVMediaType.video, position: .front)
+            
+            // uses discovery session to find all devices that matched our preferences (front camera)
             let devices = discoverySession.devices
+            
+            // gets first device out of that list
             let device = devices.first
+            
+            // used device to (attempt to) create new AVCaptureDeviceInput
             if let input = try? AVCaptureDeviceInput(device: device!) {
                 print("allowed new input")
+                
+                // made sure the captureSession can add a new input
                 if (self.captureSession.canAddInput(input)) {
                     self.captureSession.addInput(input)
                     print("switched camera")
+                    
+                    // we're now using the front camera, so we set backCamera to false
                     self.backCamera = false
                 }
             }
+            // commits changes to captureSession
             captureSession.commitConfiguration()
         } else {
+            
+            // we're using the front camera
             captureSession.beginConfiguration()
             for input in captureSession!.inputs {
                 captureSession!.removeInput(input)
             }
+            
+            // creates discoverySession that looks for back cameras
             let discoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera, .builtInDualCamera, .builtInTrueDepthCamera], mediaType: AVMediaType.video, position: .back)
             let devices = discoverySession.devices
             let device = devices.first
@@ -170,9 +199,11 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
         
     }
     
+    // Shannon will implement
     @IBAction func importFromCameraRoll(_ sender: UIButton) {
     }
     
+    // Fiza will implement
     @IBAction func useFlash(_ sender: UIButton) {
     }
     
@@ -182,6 +213,8 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
                      didFinishProcessingPhoto photo: AVCapturePhoto,
                      error: Error?) {
         print("saved")
+        
+        // saves captured photo to camera roll
         PHPhotoLibrary.shared().performChanges( {
             let creationRequest = PHAssetCreationRequest.forAsset()
             creationRequest.addResource(with: PHAssetResourceType.photo, data: photo.fileDataRepresentation()!, options: nil)
