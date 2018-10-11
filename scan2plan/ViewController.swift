@@ -18,6 +18,8 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
     var previewLayer: AVCaptureVideoPreviewLayer!
     internal var previewView: UIView?
     
+    var backCamera = true
+    
     //MARK: Outlets
     @IBOutlet weak var cameraRollButton: UIButton!
     @IBOutlet weak var profileButton: UIButton!
@@ -53,12 +55,12 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
                 print("granted")
                 //Set up session
                 if let input = try? AVCaptureDeviceInput(device: device!) {
-                    print("yeah")
+                    print("input found")
                     if (self.captureSession.canAddInput(input)) {
                         self.captureSession.addInput(input)
-                        print("yeah2")
+                        print("added input")
                         if (self.captureSession.canAddOutput(self.photoOutput)) {
-                            print("yeah3")
+                            print("added output")
                             self.captureSession.addOutput(self.photoOutput)
                             self.previewLayer = AVCaptureVideoPreviewLayer(session: self.captureSession)
                             self.previewLayer?.videoGravity = AVLayerVideoGravity.resizeAspectFill
@@ -130,6 +132,35 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
     
     // switch from selfie to back camera
     @IBAction func switchCameraOrientation(_ sender: UIButton) {
+        if self.backCamera {
+            captureSession.beginConfiguration()
+            let discoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera], mediaType: AVMediaType.video, position: .front)
+            let devices = discoverySession.devices
+            let device = devices.first
+            if let input = try? AVCaptureDeviceInput(device: device!) {
+                print("yeah")
+                if (self.captureSession.canAddInput(input)) {
+                    self.captureSession.addInput(input)
+                    print("woohoo")
+                    self.backCamera = false
+                }
+            }
+            captureSession.commitConfiguration()
+        } else {
+            captureSession.beginConfiguration()
+            let discoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera, .builtInDualCamera, .builtInTrueDepthCamera], mediaType: AVMediaType.video, position: .back)
+            let devices = discoverySession.devices
+            let device = devices.first
+            if let input = try? AVCaptureDeviceInput(device: device!) {
+                print("yeah")
+                if (self.captureSession.canAddInput(input)) {
+                    self.captureSession.addInput(input)
+                    self.backCamera = true
+                }
+            }
+            captureSession.commitConfiguration()
+        }
+        
     }
     
     @IBAction func importFromCameraRoll(_ sender: UIButton) {
@@ -143,7 +174,7 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
     func photoOutput(_ output: AVCapturePhotoOutput,
                      didFinishProcessingPhoto photo: AVCapturePhoto,
                      error: Error?) {
-        print("hell ya")
+        print("saved")
         PHPhotoLibrary.shared().performChanges( {
             let creationRequest = PHAssetCreationRequest.forAsset()
             creationRequest.addResource(with: PHAssetResourceType.photo, data: photo.fileDataRepresentation()!, options: nil)

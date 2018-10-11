@@ -25,16 +25,8 @@
                                     <action selector="switchCameraOrientation:" destination="BYZ-38-t0r" eventType="touchUpInside" id="mN8-c6-fev"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y9a-EG-FZb">
-                                <rect key="frame" x="319" y="629" width="51" height="48"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" image="flash"/>
-                                <connections>
-                                    <action selector="useFlash:" destination="BYZ-38-t0r" eventType="touchUpInside" id="YHs-Ze-N38"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u0t-6K-pdj">
-                                <rect key="frame" x="308" y="36" width="73" height="75"/>
+                                <rect key="frame" x="306" y="36" width="73" height="75"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" image="importFromCameraRoll"/>
                                 <connections>
@@ -55,6 +47,14 @@
                                 <state key="normal" image="profile"/>
                                 <connections>
                                     <segue destination="KRC-er-KZq" kind="show" id="fQe-kn-OgP"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y9a-EG-FZb">
+                                <rect key="frame" x="317" y="629" width="51" height="48"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="flash"/>
+                                <connections>
+                                    <action selector="useFlash:" destination="BYZ-38-t0r" eventType="touchUpInside" id="YHs-Ze-N38"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -86,7 +86,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wGl-3u-JMU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-159" y="704"/>
+            <point key="canvasLocation" x="-110" y="782"/>
         </scene>
     </scenes>
     <resources>
