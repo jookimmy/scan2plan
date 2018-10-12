@@ -88,7 +88,7 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
         })
         captureSession.commitConfiguration()
         
-        // setup UI, location of buttons
+        // setup UI, location of buttons, adds them to main view
         
         // lower buttons
         self.capturePhotoButton.frame = CGRect(x: bounds.width/2 - bounds.width/12, y: (bounds.height * 8.5)/10, width: bounds.width/6, height: bounds.width/6)
