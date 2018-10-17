@@ -44,8 +44,11 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
             print("previewView not added")
         }
         
+        // creates new AVCaptureSession
         captureSession = AVCaptureSession()
+        // need to call this whenever we're making adjustments to the capture session
         captureSession.beginConfiguration()
+        
         captureSession.sessionPreset = AVCaptureSession.Preset.photo
         
         //Ask permission to camera
@@ -54,22 +57,26 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
         let devices = discoverySession.devices
         let device = devices.first
         
-        // makes sure that user has given permission for app to access the camera, if not, requests access in form of popup (this is handled in info.plist)
+        // makes sure that user has given permission for app to access the camera, if not, requests access in form of popup (this is handled in info.plist under Privacy: Camera Usage Description)
         AVCaptureDevice.requestAccess(for: AVMediaType.video, completionHandler: { (granted: Bool) in
             if granted {
                 print("granted")
                 //Set up session
                 if let input = try? AVCaptureDeviceInput(device: device!) {
                     print("input found")
+                    // checks to make sure whether we can add an input to the capture session
                     if (self.captureSession.canAddInput(input)) {
                         self.captureSession.addInput(input)
                         print("added input")
+                        // checks to make sure we can add an output
                         if (self.captureSession.canAddOutput(self.photoOutput)) {
-                            print("added output")
                             self.captureSession.addOutput(self.photoOutput)
+                            print("added output")
+                            // initializes previewlayer with AVCaptureVideoPreviewLayer (camera feed)
                             self.previewLayer = AVCaptureVideoPreviewLayer(session: self.captureSession)
                             // makes it so that camera fills up screen
                             self.previewLayer?.videoGravity = AVLayerVideoGravity.resizeAspectFill
+                            // set bounds and position of previewLayer
                             self.previewLayer?.bounds = bounds
                             self.previewLayer?.position = CGPoint(x: bounds.midX, y: bounds.midY)
                             // adds the preview layer to preview view (which will later be added to view)
@@ -86,12 +93,15 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
                 print("Goodbye")
             }
         })
+        // need to call this whenever we're finished configuring capture session
         captureSession.commitConfiguration()
         
         // setup UI, location of buttons, adds them to main view
         
         // lower buttons
+        // setup the frame in which button will be located (height, width, coordinate)
         self.capturePhotoButton.frame = CGRect(x: bounds.width/2 - bounds.width/12, y: (bounds.height * 8.5)/10, width: bounds.width/6, height: bounds.width/6)
+        // adds button to subview
         self.view.addSubview(capturePhotoButton)
         
         self.flipCameraButton.frame = CGRect(x: bounds.width/5 - bounds.width/20, y: (bounds.height * 8.5)/10, width: bounds.width/10, height: bounds.width/10)
@@ -194,6 +204,8 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
                     self.backCamera = true
                 }
             }
+            // ends changes
+            // hello?
             captureSession.commitConfiguration()
         }
         
