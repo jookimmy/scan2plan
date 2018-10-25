@@ -15,7 +15,7 @@
 		AEDCE54721693C24003C260D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AEDCE54521693C24003C260D /* LaunchScreen.storyboard */; };
 		AEDCE55221693C24003C260D /* scan2planTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEDCE55121693C24003C260D /* scan2planTests.swift */; };
 		AEDCE55D21693C24003C260D /* scan2planUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEDCE55C21693C24003C260D /* scan2planUITests.swift */; };
-		D9D1908D217BE6E1005C36A6 /* eventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D1908C217BE6E1005C36A6 /* eventViewController.swift */; };
+		D9D1908D217BE6E1005C36A6 /* EventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D1908C217BE6E1005C36A6 /* EventViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,7 +50,7 @@
 		AEDCE55821693C24003C260D /* scan2planUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = scan2planUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AEDCE55C21693C24003C260D /* scan2planUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = scan2planUITests.swift; sourceTree = "<group>"; };
 		AEDCE55E21693C24003C260D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D9D1908C217BE6E1005C36A6 /* eventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = eventViewController.swift; sourceTree = "<group>"; };
+		D9D1908C217BE6E1005C36A6 /* EventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,7 +104,7 @@
 				AEDCE53C21693C23003C260D /* AppDelegate.swift */,
 				AEDCE53E21693C23003C260D /* ViewController.swift */,
 				3755F5BC2169464500B04493 /* ProfileViewController.swift */,
-				D9D1908C217BE6E1005C36A6 /* eventViewController.swift */,
+				D9D1908C217BE6E1005C36A6 /* EventViewController.swift */,
 				AEDCE54021693C23003C260D /* Main.storyboard */,
 				AEDCE54321693C24003C260D /* Assets.xcassets */,
 				AEDCE54521693C24003C260D /* LaunchScreen.storyboard */,
@@ -263,7 +263,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3755F5BD2169464500B04493 /* ProfileViewController.swift in Sources */,
-				D9D1908D217BE6E1005C36A6 /* eventViewController.swift in Sources */,
+				D9D1908D217BE6E1005C36A6 /* EventViewController.swift in Sources */,
 				AEDCE53F21693C23003C260D /* ViewController.swift in Sources */,
 				AEDCE53D21693C23003C260D /* AppDelegate.swift in Sources */,
 			);

@@ -24,6 +24,7 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
     @IBOutlet weak var flashButton: UIButton!
     @IBOutlet weak var flipCameraButton: UIButton!
     @IBOutlet weak var capturePhotoButton: UIButton!
+    @IBOutlet weak var eventTestButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -97,6 +98,9 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
         
         self.cameraRollButton.frame = CGRect(x: (bounds.width*11)/12 - bounds.width/18, y: (bounds.height)/12, width: bounds.width/9, height: bounds.width/9)
         self.view.addSubview(cameraRollButton)
+        
+//        self.eventTestButton.frame = CGRect(x: (bounds.width*11)/12 - bounds.width/18, y: (bounds.height)/12, width: bounds.width/9, height: bounds.width/9)
+        self.view.addSubview(eventTestButton)
     }
     
      override func viewDidLayoutSubviews() {

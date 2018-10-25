@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -63,7 +62,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Event tester Page"/>
                                 <connections>
-                                    <segue destination="vcd-CS-GQI" kind="presentation" modalTransitionStyle="crossDissolve" id="qQV-Io-wVQ"/>
+                                    <segue destination="vcd-CS-GQI" kind="show" id="NZt-tx-rr3"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -73,6 +72,7 @@
                     <connections>
                         <outlet property="cameraRollButton" destination="u0t-6K-pdj" id="Ama-Hm-ybu"/>
                         <outlet property="capturePhotoButton" destination="KZM-lu-oEW" id="i5Z-c4-SzI"/>
+                        <outlet property="eventTestButton" destination="BkO-1v-642" id="0fm-gk-TO4"/>
                         <outlet property="flashButton" destination="y9a-EG-FZb" id="JCU-jX-MgP"/>
                         <outlet property="flipCameraButton" destination="oa0-jx-JnC" id="yyS-bs-TTO"/>
                         <outlet property="profileButton" destination="mTy-mp-u9Z" id="AEx-RZ-Uxf"/>
@@ -85,7 +85,7 @@
         <!--Event View Controller-->
         <scene sceneID="cc8-sO-5e2">
             <objects>
-                <viewController id="vcd-CS-GQI" customClass="eventViewController" customModule="scan2plan" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="vcd-CS-GQI" customClass="EventViewController" customModule="scan2plan" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Mz5-K7-Bne">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -110,9 +110,6 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="Qsj-h4-x7Q"/>
                     </view>
-                    <connections>
-                        <outlet property="btnAddEvent" destination="9ri-vG-8ou" id="2Nt-wz-eZm"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ix7-je-V7U" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
