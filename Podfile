@@ -6,7 +6,10 @@ target 'scan2plan' do
   use_frameworks!
 
   # Pods for scan2plan
+    pod 'Firebase/Core'
+    pod 'Firebase/MLVision'
 	pod 'GoogleMobileVision/TextDetector'
+    use_frameworks!
 
   target 'scan2planTests' do
     inherit! :search_paths
