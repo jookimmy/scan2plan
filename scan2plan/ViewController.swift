@@ -10,6 +10,7 @@ import UIKit
 import AVFoundation
 import Vision
 import Photos
+import Firebase
 
 class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
     
@@ -17,6 +18,10 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
     var photoOutput = AVCapturePhotoOutput()
     var previewLayer: AVCaptureVideoPreviewLayer!
     internal var previewView: UIView?
+    
+    // Mobile Vision stuff
+//    var vision:Vision!
+//    var visionOptions:VisionCloudTextRecognizerOptions!
     
     //MARK: Outlets
     @IBOutlet weak var cameraRollButton: UIButton!
@@ -38,6 +43,11 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
         } else {
             print("previewView not added")
         }
+        
+        // setup vision stuff
+//        vision = Vision.vision()
+//        visionOptions = VisionCloudTextRecognizerOptions()
+//        visionOptions.languageHints = ["en"]
 
         captureSession = AVCaptureSession()
         captureSession.beginConfiguration()
@@ -148,6 +158,42 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
             let creationRequest = PHAssetCreationRequest.forAsset()
             creationRequest.addResource(with: PHAssetResourceType.photo, data: photo.fileDataRepresentation()!, options: nil)
         }, completionHandler: nil)
+        
+        let vision = Vision.vision()
+        let visionOptions = VisionCloudTextRecognizerOptions()
+        visionOptions.languageHints = ["en"]
+        
+        let cgImage = photo.cgImageRepresentation()!.takeRetainedValue()
+        let orientation = photo.metadata[kCGImagePropertyOrientation as String] as! NSNumber
+        let uiOrientation = UIImage.Orientation(rawValue: orientation.intValue)!
+        let image = UIImage(cgImage: cgImage, scale: 1, orientation: uiOrientation)
+        
+        let textRecognizer = vision.cloudTextRecognizer()
+        let visionImage = VisionImage(image: image)
+        
+        textRecognizer.process(visionImage) { result, error in
+            guard error == nil, let result = result else {
+                // ...
+                print("error:")
+                print(error)
+                return
+            }
+            // Recognized text
+            print(result.text)
+        }
+        
+//        DispatchQueue.main.async(execute: {
+//            textRecognizer.process(visionImage) { result, error in
+//                guard error == nil, let result = result else {
+//                    // ...
+////                    print("error:")
+//                    print(error)
+//                    return
+//                }
+//                // Recognized text
+//                print(result.text)
+//            }
+//        })
     }
     
     func photoOutput(_ captureOutput: AVCapturePhotoOutput,
