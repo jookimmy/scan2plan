@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		17232CE113B333C4967F148B /* Pods_scan2planTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 550C2EBF541E7B69B3514A71 /* Pods_scan2planTests.framework */; };
-		37058483218280110079885A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 37058482218280110079885A /* GoogleService-Info.plist */; };
+		37058485218508C60079885A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 37058484218508580079885A /* GoogleService-Info.plist */; };
 		3755F5BD2169464500B04493 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3755F5BC2169464500B04493 /* ProfileViewController.swift */; };
 		8827D5F8967FCF02FEA4B4F9 /* Pods_scan2planUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D69BCA42F5F87EAEE97549CE /* Pods_scan2planUITests.framework */; };
 		9A24195A404FBCF781D98F94 /* Pods_scan2plan.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F86D69045B9D8A4D1FE6BBFC /* Pods_scan2plan.framework */; };
@@ -40,7 +40,7 @@
 
 /* Begin PBXFileReference section */
 		0DD0F1184609348821D6080F /* Pods-scan2planUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-scan2planUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-scan2planUITests/Pods-scan2planUITests.debug.xcconfig"; sourceTree = "<group>"; };
-		37058482218280110079885A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../GoogleService-Info.plist"; sourceTree = "<group>"; };
+		37058484218508580079885A /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3755F5BC2169464500B04493 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		550C2EBF541E7B69B3514A71 /* Pods_scan2planTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_scan2planTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6BCD2E727CBC0F69768972F4 /* Pods-scan2planTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-scan2planTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-scan2planTests/Pods-scan2planTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -106,7 +106,6 @@
 		AEDCE53021693C23003C260D = {
 			isa = PBXGroup;
 			children = (
-				37058482218280110079885A /* GoogleService-Info.plist */,
 				AEDCE53B21693C23003C260D /* scan2plan */,
 				AEDCE55021693C24003C260D /* scan2planTests */,
 				AEDCE55B21693C24003C260D /* scan2planUITests */,
@@ -129,6 +128,7 @@
 		AEDCE53B21693C23003C260D /* scan2plan */ = {
 			isa = PBXGroup;
 			children = (
+				37058484218508580079885A /* GoogleService-Info.plist */,
 				AEDCE53C21693C23003C260D /* AppDelegate.swift */,
 				AEDCE53E21693C23003C260D /* ViewController.swift */,
 				3755F5BC2169464500B04493 /* ProfileViewController.swift */,
@@ -281,7 +281,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AEDCE54721693C24003C260D /* LaunchScreen.storyboard in Resources */,
-				37058483218280110079885A /* GoogleService-Info.plist in Resources */,
+				37058485218508C60079885A /* GoogleService-Info.plist in Resources */,
 				AEDCE54421693C24003C260D /* Assets.xcassets in Resources */,
 				AEDCE54221693C23003C260D /* Main.storyboard in Resources */,
 			);
