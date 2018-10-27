@@ -19,10 +19,6 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
     var previewLayer: AVCaptureVideoPreviewLayer!
     internal var previewView: UIView?
     
-    // Mobile Vision stuff
-//    var vision:Vision!
-//    var visionOptions:VisionCloudTextRecognizerOptions!
-    
     //MARK: Outlets
     @IBOutlet weak var cameraRollButton: UIButton!
     @IBOutlet weak var profileButton: UIButton!

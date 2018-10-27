@@ -41,14 +41,6 @@
                                     <action selector="importFromCameraRoll:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ZGO-L7-TVK"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mTy-mp-u9Z">
-                                <rect key="frame" x="36" y="36" width="70" height="75"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" image="profile"/>
-                                <connections>
-                                    <segue destination="KRC-er-KZq" kind="show" id="fQe-kn-OgP"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KZM-lu-oEW">
                                 <rect key="frame" x="175" y="621" width="64" height="63"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
@@ -66,34 +58,17 @@
                         <outlet property="capturePhotoButton" destination="KZM-lu-oEW" id="i5Z-c4-SzI"/>
                         <outlet property="flashButton" destination="y9a-EG-FZb" id="JCU-jX-MgP"/>
                         <outlet property="flipCameraButton" destination="oa0-jx-JnC" id="yyS-bs-TTO"/>
-                        <outlet property="profileButton" destination="mTy-mp-u9Z" id="AEx-RZ-Uxf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-110.14492753623189" y="10.597826086956523"/>
         </scene>
-        <!--ProfileViewController-->
-        <scene sceneID="Fgi-nf-Cax">
-            <objects>
-                <viewController title="ProfileViewController" id="KRC-er-KZq" customClass="ProfileViewController" customModule="scan2plan" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="ZJP-Gu-1Qi">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <viewLayoutGuide key="safeArea" id="zqF-pz-WlQ"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="wGl-3u-JMU" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-159" y="704"/>
-        </scene>
     </scenes>
     <resources>
         <image name="camerabutton" width="440" height="439"/>
         <image name="flash" width="512" height="512"/>
         <image name="importFromCameraRoll" width="720" height="720"/>
-        <image name="profile" width="296" height="296"/>
         <image name="switchCameraOrientation" width="200" height="200"/>
     </resources>
 </document>
