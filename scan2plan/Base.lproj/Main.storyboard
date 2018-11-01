@@ -38,7 +38,6 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" image="importFromCameraRoll"/>
                                 <connections>
-                                    <action selector="importFromCameraRoll:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ZGO-L7-TVK"/>
                                     <segue destination="ans-c4-ZCN" kind="show" id="Whf-Kc-yuZ"/>
                                 </connections>
                             </button>
@@ -77,19 +76,31 @@
         <!--Upload Photo-->
         <scene sceneID="XFi-hU-JOv">
             <objects>
-                <viewController title="Upload Photo" id="ans-c4-ZCN" sceneMemberID="viewController">
+                <viewController title="Upload Photo" id="ans-c4-ZCN" customClass="UploadViewController" customModule="scan2plan" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="JZ2-n1-L23">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9Rb-Pw-si6">
-                                <rect key="frame" x="48" y="70" width="321" height="537"/>
+                                <rect key="frame" x="0.0" y="31" width="414" height="537"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dXT-Wv-eAT">
+                                <rect key="frame" x="0.0" y="576" width="414" height="85"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                <state key="normal" title="Upload Photo"/>
+                                <connections>
+                                    <action selector="uploadButton:" destination="ans-c4-ZCN" eventType="touchUpInside" id="Ju3-0g-Tvw"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="CbI-nI-98Q"/>
                     </view>
+                    <connections>
+                        <outlet property="uploadView" destination="9Rb-Pw-si6" id="s00-lK-pc0"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ljn-5Y-m8v" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

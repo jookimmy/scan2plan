@@ -11,7 +11,7 @@ import AVFoundation
 import Vision
 import Photos
 
-class ViewController: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate, AVCapturePhotoCaptureDelegate {
+class ViewController: UIViewController {
     
     var captureSession: AVCaptureSession!
     var photoOutput = AVCapturePhotoOutput()
@@ -134,17 +134,17 @@ class ViewController: UIViewController, UINavigationControllerDelegate, UIImageP
     @IBAction func switchCameraOrientation(_ sender: UIButton) {
     }
     
-    @IBAction func importFromCameraRoll(_ sender: UIButton) {
-        //let image = UIImagePickerController()
-        //image.delegate = self
-        self.imagePicker.sourceType = UIImagePickerController.SourceType.photoLibrary
-        imagePicker.allowsEditing = false
-        self.present(imagePicker, animated: true)
-        {
-            
-        }
-        
-    }
+//    @IBAction func importFromCameraRoll(_ sender: UIButton) {
+//        //let image = UIImagePickerController()
+//        //image.delegate = self
+//        self.imagePicker.sourceType = UIImagePickerController.SourceType.photoLibrary
+//        imagePicker.allowsEditing = false
+//        self.present(imagePicker, animated: true)
+//        {
+//            
+//        }
+//        
+//    }
     private func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let image = info["UIImagePickerControllerOriginalImage"] as? UIImage {
             print(image.size)
