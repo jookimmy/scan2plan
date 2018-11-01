@@ -22,6 +22,20 @@ class EventViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    func createDate(year: Int, month: Int, day: Int, hour: Int, minute: Int) -> Date {
+        // Specify date components
+        var dateComponents = DateComponents()
+        dateComponents.year = year
+        dateComponents.month = month
+        dateComponents.day = day
+        dateComponents.hour = hour
+        dateComponents.minute = minute
+
+        // Create date from components
+        let userCalendar = Calendar.current // user calendar
+        let dateTime = userCalendar.date(from: dateComponents)
+        return dateTime
+    }
 
     @IBAction func btnEventAdd(_ sender: Any) {
         let eventStore:EKEventStore = EKEventStore()
@@ -32,10 +46,10 @@ class EventViewController: UIViewController {
                 print("Error: \(String(describing: error))")
                 
                 let event:EKEvent = EKEvent(eventStore: eventStore)
-                event.title = "Test event title"
-                event.startDate = Date()
-                event.endDate = Date()
-                event.notes = "Some description of the event"
+                event.title = "Daman's Birthday"
+                event.startDate = createDate(2018, 12, 24, 0, 0)
+                event.endDate = createDate(2018, 12, 24, 0, 0)
+                event.notes = "Just a test of date creation"
                 event.calendar = eventStore.defaultCalendarForNewEvents
                 do {
                     try eventStore.save(event, span: .thisEvent)
