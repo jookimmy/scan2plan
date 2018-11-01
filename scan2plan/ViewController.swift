@@ -22,7 +22,8 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
     internal var previewView: UIView?
     
     // Mobile Vision stuff
-    var vision:Vision!
+    private lazy var vision = Vision.vision()
+    private lazy var textRecognizer = vision.onDeviceTextRecognizer()
     
     //MARK: Outlets
     @IBOutlet weak var cameraRollButton: UIButton!
@@ -158,26 +159,14 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
             creationRequest.addResource(with: PHAssetResourceType.photo, data: photo.fileDataRepresentation()!, options: nil)
         }, completionHandler: nil)
         
-//        let visionOptions = VisionCloudTextRecognizerOptions()
-//        visionOptions.languageHints = ["en"]
-        
         let cgImage = photo.cgImageRepresentation()!.takeRetainedValue()
+        print(cgImage)
         let orientation = photo.metadata[kCGImagePropertyOrientation as String] as! NSNumber
         let uiOrientation = UIImage.Orientation(rawValue: orientation.intValue)!
         let image = UIImage(cgImage: cgImage, scale: 1, orientation: uiOrientation)
+        print(image)
         
-        let visionImage = VisionImage(image: image)
-        let textRecognizer = vision!.onDeviceTextRecognizer()
-        
-        textRecognizer.process(visionImage) { text, error in
-            guard error == nil, let text = text else {
-                print("On-Device text recognizer error: " +
-                    "\(error?.localizedDescription ?? "no results")")
-                return
-            }
-            print("text: ")
-            print(text)
-        }
+        self.runTextRecognition(with: image)
     }
     
     func photoOutput(_ captureOutput: AVCapturePhotoOutput,
@@ -188,6 +177,48 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
             print("Error in capture process: \(String(describing: error))")
             return
         }
+    }
+    
+    func runTextRecognition(with image: UIImage) {
+        let visionImage = VisionImage(image: image)
+        textRecognizer.process(visionImage) { features, error in
+            self.processResult(from: features, error: error)
+        }
+    }
+    
+    func processResult(from text: VisionText?, error: Error?) {
+//        removeDetectionAnnotations()
+        guard error == nil, let text = text else {
+//            let errorString = error?.localizedDescription ?? Constants.detectionNoResultsMessage
+//            print("Text recognizer failed with error: \(errorString)")
+            print("oops")
+            return
+        }
+        
+        print(text.text)
+        
+//        let transform = self.transformMatrix()
+//
+//        // Blocks.
+//        for block in text.blocks {
+//            drawFrame(block.frame, in: .purple, transform: transform)
+//
+//            // Lines.
+//            for line in block.lines {
+//                drawFrame(line.frame, in: .orange, transform: transform)
+//
+//                // Elements.
+//                for element in line.elements {
+//                    drawFrame(element.frame, in: .green, transform: transform)
+//
+//                    let transformedRect = element.frame.applying(transform)
+//                    let label = UILabel(frame: transformedRect)
+//                    label.text = element.text
+//                    label.adjustsFontSizeToFitWidth = true
+//                    self.annotationOverlayView.addSubview(label)
+//                }
+//            }
+//        }
     }
     
 }
