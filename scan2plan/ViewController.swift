@@ -11,7 +11,7 @@ import AVFoundation
 import Vision
 import Photos
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UIImagePickerControllerDelegate, AVCapturePhotoCaptureDelegate, UINavigationControllerDelegate {
     
     var captureSession: AVCaptureSession!
     var photoOutput = AVCapturePhotoOutput()
