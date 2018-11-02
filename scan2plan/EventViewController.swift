@@ -33,8 +33,9 @@ class EventViewController: UIViewController {
 
         // Create date from components
         let userCalendar = Calendar.current // user calendar
-        let dateTime = userCalendar.date(from: dateComponents)
-        return dateTime
+        var dateTime: Date? = nil
+        dateTime = userCalendar.date(from: dateComponents) 
+        return dateTime!
     }
 
     @IBAction func btnEventAdd(_ sender: Any) {
