@@ -23,7 +23,7 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
     
     // Mobile Vision stuff
     private lazy var vision = Vision.vision()
-    private lazy var textRecognizer = vision.onDeviceTextRecognizer()
+    private lazy var textRecognizer = vision.cloudTextRecognizer()
     
     //MARK: Outlets
     @IBOutlet weak var cameraRollButton: UIButton!
@@ -46,9 +46,6 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
             print("previewView not added")
         }
         
-        // setup vision stuff
-        vision = Vision.vision()
-
         captureSession = AVCaptureSession()
         captureSession.beginConfiguration()
         captureSession.sessionPreset = AVCaptureSession.Preset.photo
@@ -159,12 +156,10 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
             creationRequest.addResource(with: PHAssetResourceType.photo, data: photo.fileDataRepresentation()!, options: nil)
         }, completionHandler: nil)
         
-        let cgImage = photo.cgImageRepresentation()!.takeRetainedValue()
-        print(cgImage)
+        let cgImage = photo.cgImageRepresentation()!.takeUnretainedValue()
         let orientation = photo.metadata[kCGImagePropertyOrientation as String] as! NSNumber
         let uiOrientation = UIImage.Orientation(rawValue: orientation.intValue)!
         let image = UIImage(cgImage: cgImage, scale: 1, orientation: uiOrientation)
-        print(image)
         
         self.runTextRecognition(with: image)
     }
@@ -187,38 +182,13 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
     }
     
     func processResult(from text: VisionText?, error: Error?) {
-//        removeDetectionAnnotations()
         guard error == nil, let text = text else {
-//            let errorString = error?.localizedDescription ?? Constants.detectionNoResultsMessage
-//            print("Text recognizer failed with error: \(errorString)")
             print("oops")
             return
         }
-        
-        print(text.text)
-        
-//        let transform = self.transformMatrix()
-//
-//        // Blocks.
-//        for block in text.blocks {
-//            drawFrame(block.frame, in: .purple, transform: transform)
-//
-//            // Lines.
-//            for line in block.lines {
-//                drawFrame(line.frame, in: .orange, transform: transform)
-//
-//                // Elements.
-//                for element in line.elements {
-//                    drawFrame(element.frame, in: .green, transform: transform)
-//
-//                    let transformedRect = element.frame.applying(transform)
-//                    let label = UILabel(frame: transformedRect)
-//                    label.text = element.text
-//                    label.adjustsFontSizeToFitWidth = true
-//                    self.annotationOverlayView.addSubview(label)
-//                }
-//            }
-//        }
+        for block in text.blocks {
+            print(block.text)
+        }
     }
     
 }
