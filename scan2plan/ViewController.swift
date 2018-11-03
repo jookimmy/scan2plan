@@ -23,7 +23,7 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
     
     // Mobile Vision stuff
     private lazy var vision = Vision.vision()
-    private lazy var textRecognizer = vision.cloudTextRecognizer()
+    private lazy var textRecognizer = vision.onDeviceTextRecognizer()
     
     //MARK: Outlets
     @IBOutlet weak var cameraRollButton: UIButton!
@@ -46,6 +46,9 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
             print("previewView not added")
         }
         
+        // setup vision stuff
+        vision = Vision.vision()
+
         captureSession = AVCaptureSession()
         captureSession.beginConfiguration()
         captureSession.sessionPreset = AVCaptureSession.Preset.photo
@@ -186,9 +189,36 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
             print("oops")
             return
         }
+        
         for block in text.blocks {
             print(block.text)
         }
+    }
+    
+    /// Updates the image view with a scaled version of the given image.
+    private func updateImageView(with image: UIImage) {
+        let orientation = UIApplication.shared.statusBarOrientation
+        var scaledImageWidth: CGFloat = 0.0
+        var scaledImageHeight: CGFloat = 0.0
+        switch orientation {
+        case .portrait, .portraitUpsideDown, .unknown:
+//            scaledImageWidth = imageView.bounds.size.width
+            scaledImageHeight = image.size.height * scaledImageWidth / image.size.width
+        case .landscapeLeft, .landscapeRight:
+            scaledImageWidth = image.size.width * scaledImageHeight / image.size.height
+//            scaledImageHeight = imageView.bounds.size.height
+        }
+//        DispatchQueue.global(qos: .userInitiated).async {
+//            // Scale image while maintaining aspect ratio so it displays better in the UIImageView.
+//            var scaledImage = image.scaledImage(
+//                withSize: CGSize(width: scaledImageWidth, height: scaledImageHeight)
+//            )
+//            scaledImage = scaledImage ?? image
+//            guard let finalImage = scaledImage else { return }
+//            DispatchQueue.main.async {
+//                self.imageView.image = finalImage
+//            }
+//        }
     }
     
 }
