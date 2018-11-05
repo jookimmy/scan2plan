@@ -134,26 +134,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, AVCaptu
     @IBAction func switchCameraOrientation(_ sender: UIButton) {
     }
     
-//    @IBAction func importFromCameraRoll(_ sender: UIButton) {
-//        //let image = UIImagePickerController()
-//        //image.delegate = self
-//        self.imagePicker.sourceType = UIImagePickerController.SourceType.photoLibrary
-//        imagePicker.allowsEditing = false
-//        self.present(imagePicker, animated: true)
-//        {
-//            
-//        }
-//        
-//    }
-    private func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        if let image = info["UIImagePickerControllerOriginalImage"] as? UIImage {
-            print(image.size)
-        } else {
-            print("error")
-        }
-        self.dismiss(animated: true, completion: nil)
-    }
-    
     @IBAction func useFlash(_ sender: UIButton) {
     }
     
