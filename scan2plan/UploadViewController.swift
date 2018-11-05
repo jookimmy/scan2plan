@@ -77,6 +77,18 @@ class UploadViewController: UIViewController, UIImagePickerControllerDelegate, U
         for block in text.blocks {
             print(block.text)
         }
+        
+        let okAction = UIAlertAction(title: "OK", style: .cancel) { (action) in
+            // handle user action
+        }
+        
+        let alert = UIAlertController(title: "Detected text", message: text.text, preferredStyle: .alert)
+        alert.addAction(okAction)
+        
+        self.present(alert, animated: true) {
+            // alert was presented
+            print("alert presented")
+        }
     }
     
 }
