@@ -8,7 +8,7 @@ target 'scan2plan' do
   # Pods for scan2plan
     pod 'Firebase/Core'
     pod 'Firebase/MLVision'
-    pod 'GoogleMobileVision/TextDetector'
+    	pod 'GoogleMobileVision/TextDetector'
     use_frameworks!
 
   target 'scan2planTests' do
