@@ -39,6 +39,7 @@
                                 <state key="normal" image="importFromCameraRoll"/>
                                 <connections>
                                     <action selector="importFromCameraRoll:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ZGO-L7-TVK"/>
+                                    <segue destination="MbZ-0v-aSu" kind="show" id="ILW-gy-R3g"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mTy-mp-u9Z">
@@ -72,6 +73,38 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-110.14492753623189" y="10.597826086956523"/>
+        </scene>
+        <!--Upload View Controller-->
+        <scene sceneID="FYE-uv-wJa">
+            <objects>
+                <viewController id="MbZ-0v-aSu" customClass="UploadViewController" customModule="scan2plan" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8ia-qT-CgE">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YbI-d7-PP6">
+                                <rect key="frame" x="0.0" y="20" width="414" height="591"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Szp-Ey-uzY">
+                                <rect key="frame" x="183" y="645" width="49" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                                <state key="normal" title="Upload"/>
+                                <connections>
+                                    <action selector="uploadButton:" destination="MbZ-0v-aSu" eventType="touchUpInside" id="EVC-3T-HRQ"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="suT-pz-A6k"/>
+                    </view>
+                    <connections>
+                        <outlet property="uploadView" destination="YbI-d7-PP6" id="tSP-7a-6cW"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tep-2a-Qv2" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="747.82608695652175" y="10.597826086956523"/>
         </scene>
         <!--ProfileViewController-->
         <scene sceneID="Fgi-nf-Cax">

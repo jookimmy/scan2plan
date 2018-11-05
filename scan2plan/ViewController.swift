@@ -256,35 +256,27 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
             return
         }
         
-        for block in text.blocks {
-            print(block.text)
-        }
-    }
-    
-    /// Updates the image view with a scaled version of the given image.
-    private func updateImageView(with image: UIImage) {
-        let orientation = UIApplication.shared.statusBarOrientation
-        var scaledImageWidth: CGFloat = 0.0
-        var scaledImageHeight: CGFloat = 0.0
-        switch orientation {
-        case .portrait, .portraitUpsideDown, .unknown:
-//            scaledImageWidth = imageView.bounds.size.width
-            scaledImageHeight = image.size.height * scaledImageWidth / image.size.width
-        case .landscapeLeft, .landscapeRight:
-            scaledImageWidth = image.size.width * scaledImageHeight / image.size.height
-//            scaledImageHeight = imageView.bounds.size.height
-        }
-//        DispatchQueue.global(qos: .userInitiated).async {
-//            // Scale image while maintaining aspect ratio so it displays better in the UIImageView.
-//            var scaledImage = image.scaledImage(
-//                withSize: CGSize(width: scaledImageWidth, height: scaledImageHeight)
-//            )
-//            scaledImage = scaledImage ?? image
-//            guard let finalImage = scaledImage else { return }
-//            DispatchQueue.main.async {
-//                self.imageView.image = finalImage
-//            }
+//        for block in text.blocks {
+//            print(block.text)
 //        }
+        
+        print(text.text)
+        
+        let defaultAction = UIAlertAction(title: "Agree",
+                                          style: .default) { (action) in
+                                            // Respond to user selection of the action.
+        }
+        let okayAction = UIAlertAction(title: "OK", style: .cancel) { (action) in
+            // Respond to user selection of the action
+        }
+        
+        let alert = UIAlertController(title: "Detected text", message: text.text, preferredStyle: .alert)
+        alert.addAction(okayAction)
+        alert.addAction(defaultAction)
+        print(alert)
+        
+        self.present(alert, animated: true) {
+            // alert was presented
+        }
     }
-    
 }
