@@ -22,7 +22,8 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
     internal var previewView: UIView?
     
     // Mobile Vision stuff
-    var vision:Vision!
+    private lazy var vision = Vision.vision()
+    private lazy var textRecognizer = vision.onDeviceTextRecognizer()
     
     //MARK: Outlets
     @IBOutlet weak var cameraRollButton: UIButton!
@@ -47,7 +48,7 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
         
         // setup vision stuff
         vision = Vision.vision()
-
+        
         captureSession = AVCaptureSession()
         captureSession.beginConfiguration()
         captureSession.sessionPreset = AVCaptureSession.Preset.photo
@@ -108,11 +109,11 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
         self.view.addSubview(cameraRollButton)
     }
     
-     override func viewDidLayoutSubviews() {
+    override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-//        previewLayer.frame = self.view.bounds
-     }
- 
+        //        previewLayer.frame = self.view.bounds
+    }
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -158,26 +159,12 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
             creationRequest.addResource(with: PHAssetResourceType.photo, data: photo.fileDataRepresentation()!, options: nil)
         }, completionHandler: nil)
         
-//        let visionOptions = VisionCloudTextRecognizerOptions()
-//        visionOptions.languageHints = ["en"]
-        
-        let cgImage = photo.cgImageRepresentation()!.takeRetainedValue()
+        let cgImage = photo.cgImageRepresentation()!.takeUnretainedValue()
         let orientation = photo.metadata[kCGImagePropertyOrientation as String] as! NSNumber
         let uiOrientation = UIImage.Orientation(rawValue: orientation.intValue)!
         let image = UIImage(cgImage: cgImage, scale: 1, orientation: uiOrientation)
         
-        let visionImage = VisionImage(image: image)
-        let textRecognizer = vision!.onDeviceTextRecognizer()
-        
-        textRecognizer.process(visionImage) { text, error in
-            guard error == nil, let text = text else {
-                print("On-Device text recognizer error: " +
-                    "\(error?.localizedDescription ?? "no results")")
-                return
-            }
-            print("text: ")
-            print(text)
-        }
+        self.runTextRecognition(with: image)
     }
     
     func photoOutput(_ captureOutput: AVCapturePhotoOutput,
@@ -188,6 +175,50 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
             print("Error in capture process: \(String(describing: error))")
             return
         }
+    }
+    
+    func runTextRecognition(with image: UIImage) {
+        let visionImage = VisionImage(image: image)
+        textRecognizer.process(visionImage) { features, error in
+            self.processResult(from: features, error: error)
+        }
+    }
+    
+    func processResult(from text: VisionText?, error: Error?) {
+        guard error == nil, let text = text else {
+            print("oops")
+            return
+        }
+        
+        for block in text.blocks {
+            print(block.text)
+        }
+    }
+    
+    /// Updates the image view with a scaled version of the given image.
+    private func updateImageView(with image: UIImage) {
+        let orientation = UIApplication.shared.statusBarOrientation
+        var scaledImageWidth: CGFloat = 0.0
+        var scaledImageHeight: CGFloat = 0.0
+        switch orientation {
+        case .portrait, .portraitUpsideDown, .unknown:
+            //            scaledImageWidth = imageView.bounds.size.width
+            scaledImageHeight = image.size.height * scaledImageWidth / image.size.width
+        case .landscapeLeft, .landscapeRight:
+            scaledImageWidth = image.size.width * scaledImageHeight / image.size.height
+            //            scaledImageHeight = imageView.bounds.size.height
+        }
+        //        DispatchQueue.global(qos: .userInitiated).async {
+        //            // Scale image while maintaining aspect ratio so it displays better in the UIImageView.
+        //            var scaledImage = image.scaledImage(
+        //                withSize: CGSize(width: scaledImageWidth, height: scaledImageHeight)
+        //            )
+        //            scaledImage = scaledImage ?? image
+        //            guard let finalImage = scaledImage else { return }
+        //            DispatchQueue.main.async {
+        //                self.imageView.image = finalImage
+        //            }
+        //        }
     }
     
 }

@@ -8,13 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		17232CE113B333C4967F148B /* Pods_scan2planTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 550C2EBF541E7B69B3514A71 /* Pods_scan2planTests.framework */; };
+		370584B3218FEAAA0079885A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 370584B2218FEAAA0079885A /* Assets.xcassets */; };
 		3755F5BD2169464500B04493 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3755F5BC2169464500B04493 /* ProfileViewController.swift */; };
 		8827D5F8967FCF02FEA4B4F9 /* Pods_scan2planUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D69BCA42F5F87EAEE97549CE /* Pods_scan2planUITests.framework */; };
 		9A24195A404FBCF781D98F94 /* Pods_scan2plan.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F86D69045B9D8A4D1FE6BBFC /* Pods_scan2plan.framework */; };
 		AEDCE53D21693C23003C260D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEDCE53C21693C23003C260D /* AppDelegate.swift */; };
 		AEDCE53F21693C23003C260D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEDCE53E21693C23003C260D /* ViewController.swift */; };
 		AEDCE54221693C23003C260D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AEDCE54021693C23003C260D /* Main.storyboard */; };
-		AEDCE54421693C24003C260D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AEDCE54321693C24003C260D /* Assets.xcassets */; };
 		AEDCE54721693C24003C260D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AEDCE54521693C24003C260D /* LaunchScreen.storyboard */; };
 		AEDCE55221693C24003C260D /* scan2planTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEDCE55121693C24003C260D /* scan2planTests.swift */; };
 		AEDCE55D21693C24003C260D /* scan2planUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEDCE55C21693C24003C260D /* scan2planUITests.swift */; };
@@ -39,6 +39,7 @@
 
 /* Begin PBXFileReference section */
 		0DD0F1184609348821D6080F /* Pods-scan2planUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-scan2planUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-scan2planUITests/Pods-scan2planUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		370584B2218FEAAA0079885A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3755F5BC2169464500B04493 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		550C2EBF541E7B69B3514A71 /* Pods_scan2planTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_scan2planTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6BCD2E727CBC0F69768972F4 /* Pods-scan2planTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-scan2planTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-scan2planTests/Pods-scan2planTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -47,7 +48,6 @@
 		AEDCE53C21693C23003C260D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AEDCE53E21693C23003C260D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		AEDCE54121693C23003C260D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		AEDCE54321693C24003C260D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AEDCE54621693C24003C260D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AEDCE54821693C24003C260D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AEDCE54D21693C24003C260D /* scan2planTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = scan2planTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -130,7 +130,7 @@
 				AEDCE53E21693C23003C260D /* ViewController.swift */,
 				3755F5BC2169464500B04493 /* ProfileViewController.swift */,
 				AEDCE54021693C23003C260D /* Main.storyboard */,
-				AEDCE54321693C24003C260D /* Assets.xcassets */,
+				370584B2218FEAAA0079885A /* Assets.xcassets */,
 				AEDCE54521693C24003C260D /* LaunchScreen.storyboard */,
 				AEDCE54821693C24003C260D /* Info.plist */,
 			);
@@ -278,7 +278,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AEDCE54721693C24003C260D /* LaunchScreen.storyboard in Resources */,
-				AEDCE54421693C24003C260D /* Assets.xcassets in Resources */,
+				370584B3218FEAAA0079885A /* Assets.xcassets in Resources */,
 				AEDCE54221693C23003C260D /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
