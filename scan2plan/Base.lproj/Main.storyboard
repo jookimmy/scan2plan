@@ -55,6 +55,12 @@
                                 <state key="normal" title="Take Photo" image="camerabutton"/>
                                 <connections>
                                     <action selector="takePhoto:" destination="BYZ-38-t0r" eventType="touchUpInside" id="asJ-Q4-wpt"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BkO-1v-642">
+                                <rect key="frame" x="147" y="553" width="121" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Event tester Page"/>
+                                <connections>
+                                    <segue destination="vcd-CS-GQI" kind="show" id="NZt-tx-rr3"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -64,6 +70,7 @@
                     <connections>
                         <outlet property="cameraRollButton" destination="u0t-6K-pdj" id="Ama-Hm-ybu"/>
                         <outlet property="capturePhotoButton" destination="KZM-lu-oEW" id="i5Z-c4-SzI"/>
+                        <outlet property="eventTestButton" destination="BkO-1v-642" id="0fm-gk-TO4"/>
                         <outlet property="flashButton" destination="y9a-EG-FZb" id="JCU-jX-MgP"/>
                         <outlet property="flipCameraButton" destination="oa0-jx-JnC" id="yyS-bs-TTO"/>
                         <outlet property="profileButton" destination="mTy-mp-u9Z" id="AEx-RZ-Uxf"/>
@@ -92,6 +99,28 @@
                                 <state key="normal" title="Upload Photo"/>
                                 <connections>
                                     <action selector="uploadButton:" destination="ans-c4-ZCN" eventType="touchUpInside" id="Ju3-0g-Tvw"/>
+        <!--Event View Controller-->
+        <scene sceneID="cc8-sO-5e2">
+            <objects>
+                <viewController id="vcd-CS-GQI" customClass="EventViewController" customModule="scan2plan" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Mz5-K7-Bne">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oYE-2P-oxx">
+                                <rect key="frame" x="178" y="195" width="58" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Go Back"/>
+                                <connections>
+                                    <segue destination="BYZ-38-t0r" kind="presentation" modalTransitionStyle="crossDissolve" id="m2D-YI-LXy"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9ri-vG-8ou">
+                                <rect key="frame" x="178" y="488" width="70" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Add event"/>
+                                <connections>
+                                    <action selector="btnEventAdd:" destination="vcd-CS-GQI" eventType="touchUpInside" id="9SS-Kr-ekp"/>
                                 </connections>
                             </button>
                         </subviews>

@@ -20,6 +20,7 @@
 		AEDCE55221693C24003C260D /* scan2planTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEDCE55121693C24003C260D /* scan2planTests.swift */; };
 		AEDCE55D21693C24003C260D /* scan2planUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEDCE55C21693C24003C260D /* scan2planUITests.swift */; };
 		E4239193218BB9980007DC88 /* UploadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4239192218BB9980007DC88 /* UploadViewController.swift */; };
+		D9D1908D217BE6E1005C36A6 /* EventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D1908C217BE6E1005C36A6 /* EventViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +66,7 @@
 		EBEA46F1033E4F4CD0083AFC /* Pods-scan2planTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-scan2planTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-scan2planTests/Pods-scan2planTests.debug.xcconfig"; sourceTree = "<group>"; };
 		F46DE6A70B244CA4D9CEFCFA /* Pods-scan2plan.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-scan2plan.release.xcconfig"; path = "Pods/Target Support Files/Pods-scan2plan/Pods-scan2plan.release.xcconfig"; sourceTree = "<group>"; };
 		F86D69045B9D8A4D1FE6BBFC /* Pods_scan2plan.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_scan2plan.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D9D1908C217BE6E1005C36A6 /* EventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,6 +136,7 @@
 				AEDCE53C21693C23003C260D /* AppDelegate.swift */,
 				AEDCE53E21693C23003C260D /* ViewController.swift */,
 				3755F5BC2169464500B04493 /* ProfileViewController.swift */,
+				D9D1908C217BE6E1005C36A6 /* EventViewController.swift */,
 				AEDCE54021693C23003C260D /* Main.storyboard */,
 				E4239192218BB9980007DC88 /* UploadViewController.swift */,
 				AEDCE54321693C24003C260D /* Assets.xcassets */,
@@ -436,6 +439,7 @@
 			files = (
 				3755F5BD2169464500B04493 /* ProfileViewController.swift in Sources */,
 				E4239193218BB9980007DC88 /* UploadViewController.swift in Sources */,
+				D9D1908D217BE6E1005C36A6 /* EventViewController.swift in Sources */,
 				AEDCE53F21693C23003C260D /* ViewController.swift in Sources */,
 				AEDCE53D21693C23003C260D /* AppDelegate.swift in Sources */,
 			);
