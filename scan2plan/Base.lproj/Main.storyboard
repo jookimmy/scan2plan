@@ -38,7 +38,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" image="importFromCameraRoll"/>
                                 <connections>
-                                    <action selector="importFromCameraRoll:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ZGO-L7-TVK"/>
+                                    <segue destination="ans-c4-ZCN" kind="show" id="Whf-Kc-yuZ"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mTy-mp-u9Z">
@@ -73,6 +73,39 @@
             </objects>
             <point key="canvasLocation" x="-110.14492753623189" y="10.597826086956523"/>
         </scene>
+        <!--Upload Photo-->
+        <scene sceneID="XFi-hU-JOv">
+            <objects>
+                <viewController title="Upload Photo" id="ans-c4-ZCN" customClass="UploadViewController" customModule="scan2plan" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="JZ2-n1-L23">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="etM-I2-KJI">
+                                <rect key="frame" x="0.0" y="20" width="414" height="521"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dXT-Wv-eAT">
+                                <rect key="frame" x="0.0" y="549" width="414" height="85"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                <state key="normal" title="Upload Photo"/>
+                                <connections>
+                                    <action selector="uploadButton:" destination="ans-c4-ZCN" eventType="touchUpInside" id="Ju3-0g-Tvw"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="CbI-nI-98Q"/>
+                    </view>
+                    <connections>
+                        <outlet property="uploadView" destination="etM-I2-KJI" id="ITB-Wk-kAA"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ljn-5Y-m8v" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="650.72463768115949" y="-4.0760869565217392"/>
+        </scene>
         <!--ProfileViewController-->
         <scene sceneID="Fgi-nf-Cax">
             <objects>
@@ -90,7 +123,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="camerabutton" width="440" height="439"/>
+        <image name="camerabutton" width="63.360000610351562" height="63.215999603271484"/>
         <image name="flash" width="512" height="512"/>
         <image name="importFromCameraRoll" width="720" height="720"/>
         <image name="profile" width="296" height="296"/>
