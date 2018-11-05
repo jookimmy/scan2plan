@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		17232CE113B333C4967F148B /* Pods_scan2planTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 550C2EBF541E7B69B3514A71 /* Pods_scan2planTests.framework */; };
+		370584AB218F7CAC0079885A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 370584AA218F7CAC0079885A /* GoogleService-Info.plist */; };
 		3755F5BD2169464500B04493 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3755F5BC2169464500B04493 /* ProfileViewController.swift */; };
 		8827D5F8967FCF02FEA4B4F9 /* Pods_scan2planUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D69BCA42F5F87EAEE97549CE /* Pods_scan2planUITests.framework */; };
 		9A24195A404FBCF781D98F94 /* Pods_scan2plan.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F86D69045B9D8A4D1FE6BBFC /* Pods_scan2plan.framework */; };
@@ -40,6 +41,7 @@
 
 /* Begin PBXFileReference section */
 		0DD0F1184609348821D6080F /* Pods-scan2planUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-scan2planUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-scan2planUITests/Pods-scan2planUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		370584AA218F7CAC0079885A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3755F5BC2169464500B04493 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		550C2EBF541E7B69B3514A71 /* Pods_scan2planTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_scan2planTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6BCD2E727CBC0F69768972F4 /* Pods-scan2planTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-scan2planTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-scan2planTests/Pods-scan2planTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -128,6 +130,7 @@
 		AEDCE53B21693C23003C260D /* scan2plan */ = {
 			isa = PBXGroup;
 			children = (
+				370584AA218F7CAC0079885A /* GoogleService-Info.plist */,
 				AEDCE53C21693C23003C260D /* AppDelegate.swift */,
 				AEDCE53E21693C23003C260D /* ViewController.swift */,
 				3755F5BC2169464500B04493 /* ProfileViewController.swift */,
@@ -283,6 +286,7 @@
 				AEDCE54721693C24003C260D /* LaunchScreen.storyboard in Resources */,
 				AEDCE54421693C24003C260D /* Assets.xcassets in Resources */,
 				AEDCE54221693C23003C260D /* Main.storyboard in Resources */,
+				370584AB218F7CAC0079885A /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -616,7 +620,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = scan2plan;
+				PRODUCT_BUNDLE_IDENTIFIER = cs196.scan2plan;
+
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -635,7 +640,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = scan2plan;
+				PRODUCT_BUNDLE_IDENTIFIER = cs196.scan2plan;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
