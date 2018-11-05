@@ -132,11 +132,9 @@
 		AEDCE53B21693C23003C260D /* scan2plan */ = {
 			isa = PBXGroup;
 			children = (
-				370584AA218F7CAC0079885A /* GoogleService-Info.plist */,
 				AEDCE53C21693C23003C260D /* AppDelegate.swift */,
 				AEDCE53E21693C23003C260D /* ViewController.swift */,
 				3755F5BC2169464500B04493 /* ProfileViewController.swift */,
-				D9D1908C217BE6E1005C36A6 /* EventViewController.swift */,
 				AEDCE54021693C23003C260D /* Main.storyboard */,
 				E4239192218BB9980007DC88 /* UploadViewController.swift */,
 				AEDCE54321693C24003C260D /* Assets.xcassets */,
