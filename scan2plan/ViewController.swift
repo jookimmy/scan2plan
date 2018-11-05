@@ -32,6 +32,8 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
     @IBOutlet weak var flipCameraButton: UIButton!
     @IBOutlet weak var capturePhotoButton: UIButton!
     
+    var backCamera = true
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -140,12 +142,72 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
     
     // switch from selfie to back camera
     @IBAction func switchCameraOrientation(_ sender: UIButton) {
+        // checks which camera the app is currently using (front or back)
+        if self.backCamera {
+            // we're currently using the back camera, so we want to switch to the front
+            // begins changing the capture session
+            captureSession.beginConfiguration()
+            // removes previous captureSession inputs
+            for input in captureSession!.inputs {
+                captureSession!.removeInput(input)
+            }
+            // creates new discoverySession
+            let discoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera], mediaType: AVMediaType.video, position: .front)
+            
+            // uses discovery session to find all devices that matched our preferences (front camera)
+            let devices = discoverySession.devices
+            
+            // gets first device out of that list
+            let device = devices.first
+            
+            // used device to (attempt to) create new AVCaptureDeviceInput
+            if let input = try? AVCaptureDeviceInput(device: device!) {
+                print("allowed new input")
+                
+                // made sure the captureSession can add a new input
+                if (self.captureSession.canAddInput(input)) {
+                    self.captureSession.addInput(input)
+                    print("switched camera")
+                    
+                    // we're now using the front camera, so we set backCamera to false
+                    self.backCamera = false
+                }
+            }
+            // commits changes to captureSession
+            captureSession.commitConfiguration()
+        } else {
+            
+            // we're using the front camera
+            captureSession.beginConfiguration()
+            for input in captureSession!.inputs {
+                captureSession!.removeInput(input)
+            }
+            
+            // creates discoverySession that looks for back cameras
+            let discoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera, .builtInDualCamera, .builtInTrueDepthCamera], mediaType: AVMediaType.video, position: .back)
+            let devices = discoverySession.devices
+            let device = devices.first
+            if let input = try? AVCaptureDeviceInput(device: device!) {
+                print("allowed new input")
+                if (self.captureSession.canAddInput(input)) {
+                    self.captureSession.addInput(input)
+                    print("switched camera")
+                    self.backCamera = true
+                }
+            }
+            // ends changes
+            captureSession.commitConfiguration()
+        }
     }
     
     @IBAction func importFromCameraRoll(_ sender: UIButton) {
     }
     
+    // temporary test button
     @IBAction func useFlash(_ sender: UIButton) {
+        let uiimage = UIImage(named: "testImage")
+        
+        self.runTextRecognition(with: uiimage!)
     }
     
     // AVCapturePhotoCaptureDelegate stuff
@@ -160,9 +222,11 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
         }, completionHandler: nil)
         
         let cgImage = photo.cgImageRepresentation()!.takeUnretainedValue()
+        print(kCGImagePropertyOrientation as String)
         let orientation = photo.metadata[kCGImagePropertyOrientation as String] as! NSNumber
-        let uiOrientation = UIImage.Orientation(rawValue: orientation.intValue)!
-        let image = UIImage(cgImage: cgImage, scale: 1, orientation: uiOrientation)
+//        let uiOrientation = UIImage.Orientation(rawValue: orientation.intValue)!
+        let image = UIImage(cgImage: cgImage, scale: 1, orientation: UIImage.Orientation.up)
+        print(image.imageOrientation)
         
         self.runTextRecognition(with: image)
     }
