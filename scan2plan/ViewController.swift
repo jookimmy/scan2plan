@@ -14,12 +14,13 @@ import Firebase
 import FirebaseMLVision
 
 
-class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
+class ViewController: UIViewController, UIImagePickerControllerDelegate, AVCapturePhotoCaptureDelegate, UINavigationControllerDelegate {
     
     var captureSession: AVCaptureSession!
     var photoOutput = AVCapturePhotoOutput()
     var previewLayer: AVCaptureVideoPreviewLayer!
     internal var previewView: UIView?
+    let imagePicker = UIImagePickerController()
     
     // Mobile Vision stuff
     private lazy var vision = Vision.vision()
@@ -37,8 +38,9 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let bounds:CGRect = self.view.layer.bounds
+        self.imagePicker.delegate = self
         
+        let bounds:CGRect = self.view.layer.bounds
         self.previewView = UIView(frame: bounds)
         
         if let previewView = self.previewView {
@@ -47,10 +49,8 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
         } else {
             print("previewView not added")
         }
-        
         // setup vision stuff
         vision = Vision.vision()
-
         captureSession = AVCaptureSession()
         captureSession.beginConfiguration()
         captureSession.sessionPreset = AVCaptureSession.Preset.photo
@@ -111,11 +111,11 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
         self.view.addSubview(cameraRollButton)
     }
     
-     override func viewDidLayoutSubviews() {
+    override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-//        previewLayer.frame = self.view.bounds
-     }
- 
+        //        previewLayer.frame = self.view.bounds
+    }
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -200,7 +200,24 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
         }
     }
     
-    @IBAction func importFromCameraRoll(_ sender: UIButton) {
+//    @IBAction func importFromCameraRoll(_ sender: UIButton) {
+//        //let image = UIImagePickerController()
+//        //image.delegate = self
+//        self.imagePicker.sourceType = UIImagePickerController.SourceType.photoLibrary
+//        imagePicker.allowsEditing = false
+//        self.present(imagePicker, animated: true)
+//        {
+//            
+//        }
+//        
+//    }
+    private func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        if let image = info["UIImagePickerControllerOriginalImage"] as? UIImage {
+            print(image.size)
+        } else {
+            print("error")
+        }
+        self.dismiss(animated: true, completion: nil)
     }
     
     // temporary test button
