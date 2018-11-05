@@ -256,10 +256,6 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
             return
         }
         
-//        for block in text.blocks {
-//            print(block.text)
-//        }
-        
         print(text.text)
         
         let defaultAction = UIAlertAction(title: "Agree",
@@ -277,6 +273,7 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
         
         self.present(alert, animated: true) {
             // alert was presented
+            print("alert presented")
         }
     }
 }
