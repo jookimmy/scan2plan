@@ -221,14 +221,16 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
             creationRequest.addResource(with: PHAssetResourceType.photo, data: photo.fileDataRepresentation()!, options: nil)
         }, completionHandler: nil)
         
-        let cgImage = photo.cgImageRepresentation()!.takeUnretainedValue()
-        print(kCGImagePropertyOrientation as String)
-        let orientation = photo.metadata[kCGImagePropertyOrientation as String] as! NSNumber
-//        let uiOrientation = UIImage.Orientation(rawValue: orientation.intValue)!
-        let image = UIImage(cgImage: cgImage, scale: 1, orientation: UIImage.Orientation.up)
-        print(image.imageOrientation)
+//        let cgImage = photo.cgImageRepresentation()!.takeUnretainedValue()
+//        print(kCGImagePropertyOrientation as String)
+//        let orientation = photo.metadata[kCGImagePropertyOrientation as String] as! NSNumber
+////        let uiOrientation = UIImage.Orientation(rawValue: orientation.intValue)!
+//        let image = UIImage(cgImage: cgImage, scale: 1, orientation: UIImage.Orientation.up)
+//        print(image.imageOrientation)
         
-        self.runTextRecognition(with: image)
+        let testImage = UIImage(data: photo.fileDataRepresentation()!)
+        
+        self.runTextRecognition(with: testImage!)
     }
     
     func photoOutput(_ captureOutput: AVCapturePhotoOutput,
