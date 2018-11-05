@@ -82,11 +82,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="etM-I2-KJI">
-                                <rect key="frame" x="0.0" y="20" width="414" height="521"/>
+                                <rect key="frame" x="34" y="102" width="345" height="521"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dXT-Wv-eAT">
-                                <rect key="frame" x="0.0" y="549" width="414" height="85"/>
+                                <rect key="frame" x="0.0" y="631" width="414" height="85"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                 <state key="normal" title="Upload Photo"/>
@@ -94,11 +94,21 @@
                                     <action selector="uploadButton:" destination="ans-c4-ZCN" eventType="touchUpInside" id="Ju3-0g-Tvw"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bat-9a-JMF">
+                                <rect key="frame" x="-18" y="31" width="177" height="63"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Back"/>
+                            </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lJ3-J7-wUE">
+                                <rect key="frame" x="20" y="77" width="374" height="579"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="CbI-nI-98Q"/>
                     </view>
                     <connections>
+                        <outlet property="borderView" destination="lJ3-J7-wUE" id="MWm-fp-5fH"/>
                         <outlet property="uploadView" destination="etM-I2-KJI" id="ITB-Wk-kAA"/>
                     </connections>
                 </viewController>

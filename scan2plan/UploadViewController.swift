@@ -12,11 +12,16 @@ import Vision
 import Photos
 
 class UploadViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    let image = UIImagePickerController()
 
     // MARK: Outlets
-    let image = UIImagePickerController()
+    @IBOutlet weak var borderView: UIImageView!
     @IBOutlet weak var uploadView: UIImageView!
+    
+    // MARK: Actions
     @IBAction func uploadButton(_ sender: Any) {
+        uploadView.image = UIImage(named: "placeholder")
         image.delegate = self
         image.sourceType = UIImagePickerController.SourceType.photoLibrary
         image.allowsEditing = false
@@ -39,7 +44,10 @@ class UploadViewController: UIViewController, UIImagePickerControllerDelegate, U
     override func viewDidLoad() {
         super.viewDidLoad()
         image.delegate = self
+        
         // Do any additional setup after loading the view.
+        uploadView.image = UIImage(named: "placeholder")
+        borderView.image = UIImage(named: "border")
     }
     
 
