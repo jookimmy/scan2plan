@@ -77,7 +77,7 @@ class UploadViewController: UIViewController, UIImagePickerControllerDelegate, U
         let detectedText = text.text
         
         let okAlert = UIAlertAction(title: "OK", style: .default) { (action) in
-            // handle user input
+            // segue to next view controller
         }
         
         let alert = UIAlertController(title: "Detected text", message: detectedText, preferredStyle: .alert)

@@ -26,6 +26,10 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, AVCaptu
     private lazy var vision = Vision.vision()
     private lazy var textRecognizer = vision.onDeviceTextRecognizer()
     
+    // objects to pass to Preview VC
+    var imageTaken: UIImage!
+    var visionText: VisionText!
+    
     //MARK: Outlets
     @IBOutlet weak var cameraRollButton: UIButton!
     @IBOutlet weak var flashButton: UIButton!
@@ -64,12 +68,12 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, AVCaptu
                 print("granted")
                 //Set up session
                 if let input = try? AVCaptureDeviceInput(device: device!) {
-                    print("yeah")
+                    print("valid input")
                     if (self.captureSession.canAddInput(input)) {
                         self.captureSession.addInput(input)
-                        print("yeah2")
+                        print("added input")
                         if (self.captureSession.canAddOutput(self.photoOutput)) {
-                            print("yeah3")
+                            print("added output")
                             self.captureSession.addOutput(self.photoOutput)
                             self.previewLayer = AVCaptureVideoPreviewLayer(session: self.captureSession)
                             self.previewLayer?.videoGravity = AVLayerVideoGravity.resizeAspectFill
@@ -84,7 +88,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, AVCaptu
                 
             }
             else {
-                print("Goodbye")
+                print("Access to camera denied")
             }
         })
         captureSession.commitConfiguration()
@@ -129,7 +133,11 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, AVCaptu
         print([kCVPixelBufferPixelFormatTypeKey : arr[0]])
         
         //creates capture photosettings object
-        let cameraPhotoSettings = AVCapturePhotoSettings(format: [kCVPixelBufferPixelFormatTypeKey as String : arr[0]])
+        let cameraPhotoSettings = AVCapturePhotoSettings()
+        print(cameraPhotoSettings.format!)
+        print()
+        print()
+        print()
         
         //take photo
         photoOutput.capturePhoto(with: cameraPhotoSettings, delegate: self)
@@ -215,11 +223,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, AVCaptu
         self.dismiss(animated: true, completion: nil)
     }
     
-    // temporary test button
+    // Implement later
     @IBAction func useFlash(_ sender: UIButton) {
-        let uiimage = UIImage(named: "testImage")
-        
-        self.runTextRecognition(with: uiimage!)
     }
     
     // AVCapturePhotoCaptureDelegate stuff
@@ -227,20 +232,15 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, AVCaptu
     func photoOutput(_ output: AVCapturePhotoOutput,
                      didFinishProcessingPhoto photo: AVCapturePhoto,
                      error: Error?) {
-        print("hell ya")
+        print("photo taken")
         PHPhotoLibrary.shared().performChanges( {
             let creationRequest = PHAssetCreationRequest.forAsset()
             creationRequest.addResource(with: PHAssetResourceType.photo, data: photo.fileDataRepresentation()!, options: nil)
         }, completionHandler: nil)
         
-//        let cgImage = photo.cgImageRepresentation()!.takeUnretainedValue()
-//        print(kCGImagePropertyOrientation as String)
-//        let orientation = photo.metadata[kCGImagePropertyOrientation as String] as! NSNumber
-////        let uiOrientation = UIImage.Orientation(rawValue: orientation.intValue)!
-//        let image = UIImage(cgImage: cgImage, scale: 1, orientation: UIImage.Orientation.up)
-//        print(image.imageOrientation)
-        
         let testImage = UIImage(data: photo.fileDataRepresentation()!)
+
+//        let testImage = UIImage(named: "testImage")
         
         self.runTextRecognition(with: testImage!)
     }
@@ -255,7 +255,12 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, AVCaptu
         }
     }
     
+    
+    // Text recognition functions
+    
     func runTextRecognition(with image: UIImage) {
+        self.imageTaken = image
+        // creates a vision image from the passed uiimage
         let visionImage = VisionImage(image: image)
         textRecognizer.process(visionImage) { features, error in
             self.processResult(from: features, error: error)
@@ -264,20 +269,23 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, AVCaptu
     
     func processResult(from text: VisionText?, error: Error?) {
         guard error == nil, let text = text else {
+            // no text detected
             print("oops")
             return
         }
-        let detectedText = text.text
-        
-        let okAlert = UIAlertAction(title: "OK", style: .default) { (action) in
-            // handle user input
-        }
-        
-        let alert = UIAlertController(title: "Detected text", message: detectedText, preferredStyle: .alert)
-        alert.addAction(okAlert)
-        
-        self.present(alert, animated: true) {
-            print("alert was presented")
+        self.visionText = text
+        self.performSegue(withIdentifier: "photoTaken", sender: nil)
+    }
+    
+    // MARK: - Navigation
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destination.
+        if segue.identifier == "photoTaken" {
+            let previewVC = segue.destination as! PreviewViewController
+            // Pass the selected object to the new view controller.
+            previewVC.capturedPhoto = self.imageTaken
+            previewVC.visionText = self.visionText
         }
     }
     
