@@ -19,8 +19,8 @@ class EventViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         startDateTimeField.date = Date()
-        titleTextField.text = "Parsed text"
-        locationTextField.text = "Parsed location"
+        titleTextField.text = "Meeting"
+        locationTextField.text = ""
         informationExtractor()
         
         // Do any additional setup after loading the view.

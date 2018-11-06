@@ -171,7 +171,7 @@
                                 <attributedString key="attributedText">
                                     <fragment content="Here's the information we collected.">
                                         <attributes>
-                                            <font key="NSFont" size="26" name=".AppleSystemUIFont"/>
+                                            <font key="NSFont" size="26" name=".SFNSText"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                         </attributes>
                                     </fragment>
@@ -186,15 +186,15 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="84d-f0-vpc">
-                                <rect key="frame" x="172" y="608" width="70" height="30"/>
+                                <rect key="frame" x="0.0" y="608" width="414" height="51"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title="Add Event"/>
                                 <connections>
                                     <action selector="addEventToCalendar:" destination="6xD-Uc-iwr" eventType="touchUpInside" id="4aB-ZT-318"/>
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="xs8-GY-6bj"/>
                     </view>
                     <connections>
