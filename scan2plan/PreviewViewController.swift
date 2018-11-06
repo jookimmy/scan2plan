@@ -33,6 +33,7 @@ class PreviewViewController: UIViewController {
         previewImage.frame.size = CGSize(width: width, height: height)
         
         previewImage.center = self.view.center
+        previewImage.addShadow()
         
         // set image display to photo captured in previous vc
         self.previewImage.image = capturedPhoto
@@ -157,4 +158,15 @@ fileprivate enum Constants {
     static let lineWidth: CGFloat = 1.0
     static let lineColor = UIColor.red.cgColor
     static let fillColor = UIColor.clear.cgColor
+}
+
+extension UIView {
+    
+    func addShadow() {
+        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowOffset = CGSize(width: 0, height: 0)
+        layer.shadowOpacity = 0.5
+        layer.shadowRadius = 5
+        clipsToBounds = false
+    }
 }
