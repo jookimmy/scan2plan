@@ -26,9 +26,12 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, AVCaptu
     private lazy var vision = Vision.vision()
     private lazy var textRecognizer = vision.onDeviceTextRecognizer()
     
+    // objects to pass to Preview VC
+    var imageTaken: UIImage!
+    var visionText: VisionText!
+    
     //MARK: Outlets
     @IBOutlet weak var cameraRollButton: UIButton!
-    @IBOutlet weak var profileButton: UIButton!
     @IBOutlet weak var flashButton: UIButton!
     @IBOutlet weak var flipCameraButton: UIButton!
     @IBOutlet weak var capturePhotoButton: UIButton!
@@ -66,12 +69,12 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, AVCaptu
                 print("granted")
                 //Set up session
                 if let input = try? AVCaptureDeviceInput(device: device!) {
-                    print("yeah")
+                    print("valid input")
                     if (self.captureSession.canAddInput(input)) {
                         self.captureSession.addInput(input)
-                        print("yeah2")
+                        print("added input")
                         if (self.captureSession.canAddOutput(self.photoOutput)) {
-                            print("yeah3")
+                            print("added output")
                             self.captureSession.addOutput(self.photoOutput)
                             self.previewLayer = AVCaptureVideoPreviewLayer(session: self.captureSession)
                             self.previewLayer?.videoGravity = AVLayerVideoGravity.resizeAspectFill
@@ -86,7 +89,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, AVCaptu
                 
             }
             else {
-                print("Goodbye")
+                print("Access to camera denied")
             }
         })
         captureSession.commitConfiguration()
@@ -104,10 +107,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, AVCaptu
         self.view.addSubview(flashButton)
         
         // upper buttons
-        
-        self.profileButton.frame = CGRect(x: bounds.width/12, y: (bounds.height)/12, width: bounds.width/9, height: bounds.width/9)
-        self.view.addSubview(profileButton)
-        
         self.cameraRollButton.frame = CGRect(x: (bounds.width*11)/12 - bounds.width/18, y: (bounds.height)/12, width: bounds.width/9, height: bounds.width/9)
         self.view.addSubview(cameraRollButton)
         
@@ -143,7 +142,11 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, AVCaptu
         print([kCVPixelBufferPixelFormatTypeKey : arr[0]])
         
         //creates capture photosettings object
-        let cameraPhotoSettings = AVCapturePhotoSettings(format: [kCVPixelBufferPixelFormatTypeKey as String : arr[0]])
+        let cameraPhotoSettings = AVCapturePhotoSettings()
+        print(cameraPhotoSettings.format!)
+        print()
+        print()
+        print()
         
         //take photo
         photoOutput.capturePhoto(with: cameraPhotoSettings, delegate: self)
@@ -229,11 +232,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, AVCaptu
         self.dismiss(animated: true, completion: nil)
     }
     
-    // temporary test button
+    // Implement later
     @IBAction func useFlash(_ sender: UIButton) {
-        let uiimage = UIImage(named: "testImage")
-        
-        self.runTextRecognition(with: uiimage!)
     }
     
     // AVCapturePhotoCaptureDelegate stuff
@@ -241,22 +241,28 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, AVCaptu
     func photoOutput(_ output: AVCapturePhotoOutput,
                      didFinishProcessingPhoto photo: AVCapturePhoto,
                      error: Error?) {
-        print("hell ya")
+        print("photo taken")
         PHPhotoLibrary.shared().performChanges( {
             let creationRequest = PHAssetCreationRequest.forAsset()
             creationRequest.addResource(with: PHAssetResourceType.photo, data: photo.fileDataRepresentation()!, options: nil)
         }, completionHandler: nil)
         
-//        let cgImage = photo.cgImageRepresentation()!.takeUnretainedValue()
-//        print(kCGImagePropertyOrientation as String)
-//        let orientation = photo.metadata[kCGImagePropertyOrientation as String] as! NSNumber
-////        let uiOrientation = UIImage.Orientation(rawValue: orientation.intValue)!
-//        let image = UIImage(cgImage: cgImage, scale: 1, orientation: UIImage.Orientation.up)
-//        print(image.imageOrientation)
+        let cgImage = photo.cgImageRepresentation()!.takeUnretainedValue()
+        print(kCGImagePropertyOrientation as String)
+        let testImage = UIImage(cgImage: cgImage, scale: 1, orientation: UIImage.Orientation.up)
+        let rotated = testImage.rotate(radians: .pi/2)
         
-        let testImage = UIImage(data: photo.fileDataRepresentation()!)
+        print("ORIENTATION:")
+        print(testImage.imageOrientation == UIImage.Orientation.up)
+        print(testImage.imageOrientation == UIImage.Orientation.down)
+        print(testImage.imageOrientation == UIImage.Orientation.left)
+        print(testImage.imageOrientation == UIImage.Orientation.right)
+        print()
+        print()
+        print()
+        print()
         
-        self.runTextRecognition(with: testImage!)
+        self.runTextRecognition(with: rotated!)
     }
     
     func photoOutput(_ captureOutput: AVCapturePhotoOutput,
@@ -269,7 +275,12 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, AVCaptu
         }
     }
     
+    
+    // Text recognition functions
+    
     func runTextRecognition(with image: UIImage) {
+        self.imageTaken = image
+        // creates a vision image from the passed uiimage
         let visionImage = VisionImage(image: image)
         textRecognizer.process(visionImage) { features, error in
             self.processResult(from: features, error: error)
@@ -278,39 +289,48 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, AVCaptu
     
     func processResult(from text: VisionText?, error: Error?) {
         guard error == nil, let text = text else {
+            // no text detected
             print("oops")
             return
         }
+        self.visionText = text
+        self.performSegue(withIdentifier: "photoTaken", sender: nil)
+    }
+    
+    // MARK: - Navigation
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destination.
+        if segue.identifier == "photoTaken" {
+            let previewVC = segue.destination as! PreviewViewController
+            // Pass the selected object to the new view controller.
+            previewVC.capturedPhoto = self.imageTaken
+            previewVC.visionText = self.visionText
+        }
+    }
+    
+}
+
+extension UIImage {
+    func rotate(radians: Float) -> UIImage? {
+        var newSize = CGRect(origin: CGPoint.zero, size: self.size).applying(CGAffineTransform(rotationAngle: CGFloat(radians))).size
+        // Trim off the extremely small float value to prevent core graphics from rounding it up
+        newSize.width = floor(newSize.width)
+        newSize.height = floor(newSize.height)
         
-        for block in text.blocks {
-            print(block.text)
-        }
+        UIGraphicsBeginImageContextWithOptions(newSize, true, self.scale)
+        let context = UIGraphicsGetCurrentContext()!
+        
+        // Move origin to middle
+        context.translateBy(x: newSize.width/2, y: newSize.height/2)
+        // Rotate around middle
+        context.rotate(by: CGFloat(radians))
+        // Draw the image at its center
+        self.draw(in: CGRect(x: -self.size.width/2, y: -self.size.height/2, width: self.size.width, height: self.size.height))
+        
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return newImage
     }
-    
-    /// Updates the image view with a scaled version of the given image.
-    private func updateImageView(with image: UIImage) {
-        let orientation = UIApplication.shared.statusBarOrientation
-        var scaledImageWidth: CGFloat = 0.0
-        var scaledImageHeight: CGFloat = 0.0
-        switch orientation {
-        case .portrait, .portraitUpsideDown, .unknown:
-//            scaledImageWidth = imageView.bounds.size.width
-            scaledImageHeight = image.size.height * scaledImageWidth / image.size.width
-        case .landscapeLeft, .landscapeRight:
-            scaledImageWidth = image.size.width * scaledImageHeight / image.size.height
-//            scaledImageHeight = imageView.bounds.size.height
-        }
-//        DispatchQueue.global(qos: .userInitiated).async {
-//            // Scale image while maintaining aspect ratio so it displays better in the UIImageView.
-//            var scaledImage = image.scaledImage(
-//                withSize: CGSize(width: scaledImageWidth, height: scaledImageHeight)
-//            )
-//            scaledImage = scaledImage ?? image
-//            guard let finalImage = scaledImage else { return }
-//            DispatchQueue.main.async {
-//                self.imageView.image = finalImage
-//            }
-//        }
-    }
-    
 }
