@@ -54,22 +54,25 @@ class PreviewViewController: UIViewController {
             }
         }
         
-//        // alert containing detected text
-//
-//        let okAlert = UIAlertAction(title: "OK", style: .default) { (action) in
-//            // move on to next vc with parsed event info
-//        }
-//        let retakeAlert = UIAlertAction(title: "Retake photo", style: .default) { (action) in
-//            // return to camera vc
-//        }a
-//        // displays detected text in popup window
-//        let alert = UIAlertController(title: "Detected text", message: visionText.text, preferredStyle: .alert)
-//        alert.addAction(okAlert)
-//        alert.addAction(retakeAlert)
-//
-//        self.present(alert, animated: true) {
-//            print("alert was presented")
-//        }
+        // alert containing detected text
+
+        let okAlert = UIAlertAction(title: "OK", style: .default) { (action) in
+            // move on to next vc with parsed event info
+        }
+        let retakeAlert = UIAlertAction(title: "Retake photo", style: .default) { (action) in
+            // return to camera vc
+        }
+        
+        print(visionText.text)
+        
+        // displays detected text in popup window
+        let alert = UIAlertController(title: "Detected text", message: visionText.text, preferredStyle: .alert)
+        alert.addAction(okAlert)
+        alert.addAction(retakeAlert)
+
+        self.present(alert, animated: true) {
+            print("alert was presented")
+        }
     }
     
     // MARK: - Navigation
