@@ -135,11 +135,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, AVCaptu
         
         //creates capture photosettings object
         let cameraPhotoSettings = AVCapturePhotoSettings()
-        print(cameraPhotoSettings.format!)
-        print()
-        print()
-        print()
-        
+
         //take photo
         photoOutput.capturePhoto(with: cameraPhotoSettings, delegate: self)
     }
@@ -204,17 +200,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, AVCaptu
         }
     }
     
-//    @IBAction func importFromCameraRoll(_ sender: UIButton) {
-//        //let image = UIImagePickerController()
-//        //image.delegate = self
-//        self.imagePicker.sourceType = UIImagePickerController.SourceType.photoLibrary
-//        imagePicker.allowsEditing = false
-//        self.present(imagePicker, animated: true)
-//        {
-//            
-//        }
-//        
-//    }
     private func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let image = info["UIImagePickerControllerOriginalImage"] as? UIImage {
             print(image.size)
@@ -240,7 +225,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, AVCaptu
         }, completionHandler: nil)
         
         let cgImage = photo.cgImageRepresentation()!.takeUnretainedValue()
-        print(kCGImagePropertyOrientation as String)
         let testImage = UIImage(cgImage: cgImage, scale: 1, orientation: UIImage.Orientation.up)
         // assumes that image orientation is .right (might need to fix this later)
         let rotated = testImage.rotate(radians: .pi/2)
