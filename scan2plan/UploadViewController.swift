@@ -20,6 +20,8 @@ class UploadViewController: UIViewController, UIImagePickerControllerDelegate, U
     @IBOutlet weak var uploadView: UIImageView!
     
     // MARK: Actions
+    
+    @IBOutlet weak var uploadButton: UIButton!
     @IBAction func uploadButton(_ sender: Any) {
         uploadView.image = UIImage(named: "placeholder")
         image.delegate = self
@@ -44,10 +46,23 @@ class UploadViewController: UIViewController, UIImagePickerControllerDelegate, U
     override func viewDidLoad() {
         super.viewDidLoad()
         image.delegate = self
-        
+        let IMAGE_SIZE:CGFloat = 350 // whatever
+        let OFFSET:CGFloat = -60
         // Do any additional setup after loading the view.
         uploadView.image = UIImage(named: "placeholder")
-        borderView.image = UIImage(named: "border")
+        borderView.image = UIImage(named: "whiteborder")
+//        let bounds:CGRect = self.view.layer.bounds
+//        self.uploadButton.frame = CGRect(x: bounds.width/2 - bounds.width/12, y: (bounds.height * 8.5)/10, width: bounds.width, height: bounds.width)
+        uploadView.translatesAutoresizingMaskIntoConstraints = false
+        uploadView.widthAnchor.constraint(equalToConstant: IMAGE_SIZE).isActive = true
+        uploadView.heightAnchor.constraint(equalToConstant: IMAGE_SIZE).isActive = true
+        uploadView.centerXAnchor.constraint(lessThanOrEqualTo: self.view.centerXAnchor).isActive = true
+        uploadView.centerYAnchor.constraint(lessThanOrEqualTo: self.view.centerYAnchor, constant: OFFSET).isActive = true
+        borderView.translatesAutoresizingMaskIntoConstraints = false
+        borderView.widthAnchor.constraint(equalToConstant: IMAGE_SIZE).isActive = true
+        borderView.heightAnchor.constraint(equalToConstant: IMAGE_SIZE).isActive = true
+        borderView.centerXAnchor.constraint(lessThanOrEqualTo: self.view.centerXAnchor).isActive = true
+        borderView.centerYAnchor.constraint(lessThanOrEqualTo: self.view.centerYAnchor, constant: OFFSET).isActive = true
     }
     
 
