@@ -112,13 +112,13 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, AVCaptu
         self.view.addSubview(cameraRollButton)
         
 //        self.eventTestButton.frame = CGRect(x: (bounds.width*11)/12 - bounds.width/18, y: (bounds.height)/12, width: bounds.width/9, height: bounds.width/9)
-        self.view.addSubview(eventTestButton)
+//        self.view.addSubview(eventTestButton)
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?, visionText: String) {
-        var eventViewController = segue.destination as! EventViewController
-        eventViewController.detectedText = visionText
-    }
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?, visionText: String) {
+//        var eventViewController = segue.destination as! EventViewController
+//        eventViewController.detectedText = visionText
+//    }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
