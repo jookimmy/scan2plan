@@ -20,9 +20,9 @@ class EventViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        startDateTimeField.date = Date()
-        titleTextField.text = "Meeting"
-        locationTextField.text = ""
+        startDateTimeField.date = createDate(year: 2018, month: 11, day: 8, hour: 19, minute: 30)
+        titleTextField.text = "MAMMA MIA!"
+        locationTextField.text = "Lincoln Hall Theatre"
         informationExtractor()
         
         // Do any additional setup after loading the view.
@@ -48,8 +48,14 @@ class EventViewController: UIViewController {
                 switch match.resultType {
                 case .date:
                     let detectedDate = match.date
+                    print()
+                    print()
+                    print()
+                    print()
+                    print()
+                    print()
                     print(detectedDate!)
-                    startDateTimeField.date = detectedDate!
+//                    startDateTimeField.date = detectedDate!
                 case .address:
                     if let components = match.components {
                         var addressComponents = [components[.name], components[.street], components[.city], components[.state], components[.zip], components[.country]]
@@ -116,11 +122,11 @@ class EventViewController: UIViewController {
                 DispatchQueue.main.async {
                     event.title = self.titleTextField.text
                     event.startDate = self.startDateTimeField.date
-                    event.endDate = self.startDateTimeField.date + 1800 //1800 seconds is the equivelant to 30 minutes
+                    event.endDate = self.startDateTimeField.date + 3600 //1800 seconds is the equivelant to 30 minutes
                     event.location = self.locationTextField.text
-                    event.notes = "Just a test of date creation"
-                    event.calendar = eventStore.defaultCalendarForNewEvents
                 }
+                event.notes = "Just a test of date creation"
+                event.calendar = eventStore.defaultCalendarForNewEvents
                 do {
                     try eventStore.save(event, span: .thisEvent)
                 } catch let error as NSError {

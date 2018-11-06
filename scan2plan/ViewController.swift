@@ -219,10 +219,12 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, AVCaptu
                      didFinishProcessingPhoto photo: AVCapturePhoto,
                      error: Error?) {
         print("photo taken")
-        PHPhotoLibrary.shared().performChanges( {
-            let creationRequest = PHAssetCreationRequest.forAsset()
-            creationRequest.addResource(with: PHAssetResourceType.photo, data: photo.fileDataRepresentation()!, options: nil)
-        }, completionHandler: nil)
+        
+        // save to camera roll
+//        PHPhotoLibrary.shared().performChanges( {
+//            let creationRequest = PHAssetCreationRequest.forAsset()
+//            creationRequest.addResource(with: PHAssetResourceType.photo, data: photo.fileDataRepresentation()!, options: nil)
+//        }, completionHandler: nil)
         
         let cgImage = photo.cgImageRepresentation()!.takeUnretainedValue()
         let testImage = UIImage(cgImage: cgImage, scale: 1, orientation: UIImage.Orientation.up)

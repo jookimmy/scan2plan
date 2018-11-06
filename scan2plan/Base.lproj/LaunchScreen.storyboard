@@ -17,7 +17,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="LoadingPage.png" translatesAutoresizingMaskIntoConstraints="NO" id="JSJ-WH-OG9">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="LoadingPage" translatesAutoresizingMaskIntoConstraints="NO" id="JSJ-WH-OG9">
                                 <rect key="frame" x="0.0" y="-4" width="375" height="675"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="375" id="T3K-IC-yiW"/>
@@ -41,6 +41,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="LoadingPage.png" width="1242" height="2208"/>
+        <image name="LoadingPage" width="1242" height="2208"/>
     </resources>
 </document>
