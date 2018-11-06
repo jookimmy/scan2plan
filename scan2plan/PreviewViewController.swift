@@ -13,6 +13,7 @@ import FirebaseMLVision
 
 class PreviewViewController: UIViewController {
     
+    // Sublayer that will contain text bounding boxes
     var frameSublayer = CALayer()
     
     // Passed from camera vc
@@ -20,12 +21,11 @@ class PreviewViewController: UIViewController {
     var visionText: VisionText!
     
     // MARK: Outlets
+    
     @IBOutlet weak var previewImage: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-//        let bounds = self.view.bounds
         
         let widthHeightRatio = capturedPhoto.size.width/capturedPhoto.size.height
         let width = self.previewImage.frame.width
@@ -35,7 +35,7 @@ class PreviewViewController: UIViewController {
         previewImage.center = self.view.center
         
         // set image display to photo captured in previous vc
-        self.previewImage.image = capturedPhoto // UIImage(named: "testImage")
+        self.previewImage.image = capturedPhoto
         self.previewImage.layer.addSublayer(frameSublayer)
         
         guard let features = visionText, let image = capturedPhoto else {
@@ -53,30 +53,10 @@ class PreviewViewController: UIViewController {
                 }
             }
         }
-        
-//        // alert containing detected text
-//        let okAlert = UIAlertAction(title: "OK", style: .default) { (action) in
-//            // move on to next vc with parsed event info
-//            self.performSegue(withIdentifier: "showEventInfo", sender: nil)
-//        }
-//        let retakeAlert = UIAlertAction(title: "Retake photo", style: .default) { (action) in
-//            // return to camera vc
-//            self.performSegue(withIdentifier: "retakePhoto", sender: nil)
-//        }
-//
-//        print(visionText.text)
-//
-//        // displays detected text in popup window
-//        let alert = UIAlertController(title: "Detected text", message: visionText.text, preferredStyle: .alert)
-//        alert.addAction(okAlert)
-//        alert.addAction(retakeAlert)
-//
-//        self.present(alert, animated: true) {
-//            print("alert was presented")
-//        }
     }
     
     // MARK: Actions
+    
     @IBAction func okButton(_ sender: UIButton) {
         self.performSegue(withIdentifier: "showEventInfo", sender: self)
     }
@@ -86,7 +66,6 @@ class PreviewViewController: UIViewController {
     
     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.

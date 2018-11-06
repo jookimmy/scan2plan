@@ -88,7 +88,9 @@
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gge-ZO-fMy">
                                 <rect key="frame" x="251" y="664" width="48" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
-                                <state key="normal" title="Cancel"/>
+                                <state key="normal" title="Cancel">
+                                    <color key="titleColor" red="1" green="0.21524352629999999" blue="0.1811760781" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </state>
                                 <connections>
                                     <action selector="cancelButton:" destination="3la-a0-lMe" eventType="touchUpInside" id="v3Q-R8-tGl"/>
                                 </connections>
@@ -134,6 +136,7 @@
                     </view>
                     <connections>
                         <outlet property="uploadView" destination="etM-I2-KJI" id="ITB-Wk-kAA"/>
+                        <segue destination="3la-a0-lMe" kind="show" identifier="uploadToPreview" id="H3B-aj-6rR"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ljn-5Y-m8v" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -234,6 +237,7 @@
         <image name="switchCameraOrientation" width="200" height="200"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="BgU-7w-PRH"/>
+        <segue reference="H3B-aj-6rR"/>
+        <segue reference="W65-0J-aYb"/>
     </inferredMetricsTieBreakers>
 </document>

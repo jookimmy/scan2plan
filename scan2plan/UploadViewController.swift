@@ -15,6 +15,9 @@ import FirebaseMLVision
 
 class UploadViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
+    var chosenImage: UIImage!
+    var visionText: VisionText!
+    
     // Mobile Vision stuff
     private lazy var vision = Vision.vision()
     private lazy var textRecognizer = vision.onDeviceTextRecognizer()
@@ -43,8 +46,11 @@ class UploadViewController: UIViewController, UIImagePickerControllerDelegate, U
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let image = info[.originalImage] as? UIImage {
-            self.runTextRecognition(with: image)
-            uploadView.image = image
+            // assumes that image orientation is .right (need to fix later)
+            let rotated = image.rotate(radians: .pi/2)
+            self.runTextRecognition(with: rotated!)
+            self.uploadView.image = image
+            self.chosenImage = image
         } else {
             print("error")
         }
@@ -52,15 +58,19 @@ class UploadViewController: UIViewController, UIImagePickerControllerDelegate, U
     }
 
     
-    /*
+    
     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "uploadToPreview" {
+            let previewVC = segue.destination as! PreviewViewController
+            // Pass the selected object to the new view controller.
+            previewVC.capturedPhoto = self.chosenImage
+            previewVC.visionText = self.visionText
+        }
     }
-    */
+ 
     
     func runTextRecognition(with image: UIImage) {
         let visionImage = VisionImage(image: image)
@@ -74,18 +84,8 @@ class UploadViewController: UIViewController, UIImagePickerControllerDelegate, U
             print("oops")
             return
         }
-        let detectedText = text.text
-        
-        let okAlert = UIAlertAction(title: "OK", style: .default) { (action) in
-            // segue to next view controller
-        }
-        
-        let alert = UIAlertController(title: "Detected text", message: detectedText, preferredStyle: .alert)
-        alert.addAction(okAlert)
-        
-        self.present(alert, animated: true) {
-            print("alert was presented")
-        }
+        self.visionText = text
+        self.performSegue(withIdentifier: "uploadToPreview", sender: nil)
     }
 
 }
