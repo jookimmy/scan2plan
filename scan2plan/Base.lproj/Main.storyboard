@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -55,12 +56,6 @@
                                 <state key="normal" title="Take Photo" image="camerabutton"/>
                                 <connections>
                                     <action selector="takePhoto:" destination="BYZ-38-t0r" eventType="touchUpInside" id="asJ-Q4-wpt"/>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BkO-1v-642">
-                                <rect key="frame" x="147" y="553" width="121" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Event tester Page"/>
-                                <connections>
-                                    <segue destination="vcd-CS-GQI" kind="show" id="NZt-tx-rr3"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -70,7 +65,6 @@
                     <connections>
                         <outlet property="cameraRollButton" destination="u0t-6K-pdj" id="Ama-Hm-ybu"/>
                         <outlet property="capturePhotoButton" destination="KZM-lu-oEW" id="i5Z-c4-SzI"/>
-                        <outlet property="eventTestButton" destination="BkO-1v-642" id="0fm-gk-TO4"/>
                         <outlet property="flashButton" destination="y9a-EG-FZb" id="JCU-jX-MgP"/>
                         <outlet property="flipCameraButton" destination="oa0-jx-JnC" id="yyS-bs-TTO"/>
                         <outlet property="profileButton" destination="mTy-mp-u9Z" id="AEx-RZ-Uxf"/>
@@ -99,28 +93,6 @@
                                 <state key="normal" title="Upload Photo"/>
                                 <connections>
                                     <action selector="uploadButton:" destination="ans-c4-ZCN" eventType="touchUpInside" id="Ju3-0g-Tvw"/>
-        <!--Event View Controller-->
-        <scene sceneID="cc8-sO-5e2">
-            <objects>
-                <viewController id="vcd-CS-GQI" customClass="EventViewController" customModule="scan2plan" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Mz5-K7-Bne">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oYE-2P-oxx">
-                                <rect key="frame" x="178" y="195" width="58" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Go Back"/>
-                                <connections>
-                                    <segue destination="BYZ-38-t0r" kind="presentation" modalTransitionStyle="crossDissolve" id="m2D-YI-LXy"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9ri-vG-8ou">
-                                <rect key="frame" x="178" y="488" width="70" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Add event"/>
-                                <connections>
-                                    <action selector="btnEventAdd:" destination="vcd-CS-GQI" eventType="touchUpInside" id="9SS-Kr-ekp"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -150,9 +122,96 @@
             </objects>
             <point key="canvasLocation" x="-159" y="704"/>
         </scene>
+        <!--Event View Controller-->
+        <scene sceneID="jRG-pX-6m4">
+            <objects>
+                <viewController id="6xD-Uc-iwr" customClass="EventViewController" customModule="scan2plan" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="uMV-DE-YaQ">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <datePicker contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="PkF-us-BHO">
+                                <rect key="frame" x="0.0" y="361" width="414" height="216"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <date key="date" timeIntervalSinceReferenceDate="563154012.99576294">
+                                    <!--2018-11-05 23:40:12 +0000-->
+                                </date>
+                            </datePicker>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Jhe-3A-9Z6">
+                                <rect key="frame" x="31" y="264" width="363" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Location:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XxC-RW-89R">
+                                <rect key="frame" x="31" y="235" width="71" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Rhu-EC-2ZQ">
+                                <rect key="frame" x="31" y="180" width="363" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Title:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2nZ-hG-Zli">
+                                <rect key="frame" x="31" y="151" width="38" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Ug-pz-wai">
+                                <rect key="frame" x="20" y="42" width="374" height="97"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <attributedString key="attributedText">
+                                    <fragment content="Here's the information we collected.">
+                                        <attributes>
+                                            <font key="NSFont" size="26" name=".SFNSText"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Start Date/Time:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eI0-TK-eFm">
+                                <rect key="frame" x="31" y="332" width="126" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="84d-f0-vpc">
+                                <rect key="frame" x="0.0" y="608" width="414" height="51"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" title="Add Event"/>
+                                <connections>
+                                    <action selector="addEventToCalendar:" destination="6xD-Uc-iwr" eventType="touchUpInside" id="4aB-ZT-318"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="xs8-GY-6bj"/>
+                    </view>
+                    <connections>
+                        <outlet property="addEventToCalendar" destination="84d-f0-vpc" id="L8r-yr-bsa"/>
+                        <outlet property="locationTextField" destination="Jhe-3A-9Z6" id="uF0-KF-2wi"/>
+                        <outlet property="startDatePicker" destination="PkF-us-BHO" id="hMk-gO-tkf"/>
+                        <outlet property="startDateTimeField" destination="PkF-us-BHO" id="tD0-jp-9nj"/>
+                        <outlet property="titleTextField" destination="Rhu-EC-2ZQ" id="h6D-RL-Ggf"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="VLO-pV-J5p" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="650.72463768115949" y="703.53260869565224"/>
+        </scene>
     </scenes>
     <resources>
-        <image name="camerabutton" width="63.360000610351562" height="63.215999603271484"/>
+        <image name="camerabutton" width="440" height="439"/>
         <image name="flash" width="512" height="512"/>
         <image name="importFromCameraRoll" width="720" height="720"/>
         <image name="profile" width="296" height="296"/>

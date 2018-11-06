@@ -115,6 +115,11 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, AVCaptu
         self.view.addSubview(eventTestButton)
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?, visionText: String) {
+        var eventViewController = segue.destination as! EventViewController
+        eventViewController.detectedText = visionText
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         //        previewLayer.frame = self.view.bounds
