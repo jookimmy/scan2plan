@@ -10,10 +10,17 @@ import UIKit
 import EventKit
 
 class EventViewController: UIViewController {
-
+    
+    @IBOutlet weak var titleTextField: UITextField!
+    @IBOutlet weak var locationTextField: UITextField!
+    @IBOutlet weak var startDateTimeField: UIDatePicker!
+    var detectedText = String()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        startDateTimeField.date = Date()
+        titleTextField.text = "Parsed text"
+        locationTextField.text = "Parsed location"
         // Do any additional setup after loading the view.
     }
 
@@ -38,7 +45,7 @@ class EventViewController: UIViewController {
         return dateTime!
     }
 
-    @IBAction func btnEventAdd(_ sender: Any) {
+    @IBAction func addEventToCalendar(_ sender: Any) {
         let eventStore:EKEventStore = EKEventStore()
         
         eventStore.requestAccess(to: .event, completion: {(granted, error) in
@@ -62,6 +69,7 @@ class EventViewController: UIViewController {
             }
         })
     }
+
     /*
     // MARK: - Navigation
 
