@@ -238,11 +238,22 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, AVCaptu
             creationRequest.addResource(with: PHAssetResourceType.photo, data: photo.fileDataRepresentation()!, options: nil)
         }, completionHandler: nil)
         
-        let testImage = UIImage(data: photo.fileDataRepresentation()!)
-
-//        let testImage = UIImage(named: "testImage")
+        let cgImage = photo.cgImageRepresentation()!.takeUnretainedValue()
+        print(kCGImagePropertyOrientation as String)
+        let testImage = UIImage(cgImage: cgImage, scale: 1, orientation: UIImage.Orientation.up)
+        let rotated = testImage.rotate(radians: .pi/2)
         
-        self.runTextRecognition(with: testImage!)
+        print("ORIENTATION:")
+        print(testImage.imageOrientation == UIImage.Orientation.up)
+        print(testImage.imageOrientation == UIImage.Orientation.down)
+        print(testImage.imageOrientation == UIImage.Orientation.left)
+        print(testImage.imageOrientation == UIImage.Orientation.right)
+        print()
+        print()
+        print()
+        print()
+        
+        self.runTextRecognition(with: rotated!)
     }
     
     func photoOutput(_ captureOutput: AVCapturePhotoOutput,
@@ -289,4 +300,28 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, AVCaptu
         }
     }
     
+}
+
+extension UIImage {
+    func rotate(radians: Float) -> UIImage? {
+        var newSize = CGRect(origin: CGPoint.zero, size: self.size).applying(CGAffineTransform(rotationAngle: CGFloat(radians))).size
+        // Trim off the extremely small float value to prevent core graphics from rounding it up
+        newSize.width = floor(newSize.width)
+        newSize.height = floor(newSize.height)
+        
+        UIGraphicsBeginImageContextWithOptions(newSize, true, self.scale)
+        let context = UIGraphicsGetCurrentContext()!
+        
+        // Move origin to middle
+        context.translateBy(x: newSize.width/2, y: newSize.height/2)
+        // Rotate around middle
+        context.rotate(by: CGFloat(radians))
+        // Draw the image at its center
+        self.draw(in: CGRect(x: -self.size.width/2, y: -self.size.height/2, width: self.size.width, height: self.size.height))
+        
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return newImage
+    }
 }

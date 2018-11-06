@@ -27,14 +27,15 @@ class PreviewViewController: UIViewController {
         
 //        let bounds = self.view.bounds
         
+        let widthHeightRatio = capturedPhoto.size.width/capturedPhoto.size.height
+        let width = self.previewImage.frame.width
+        let height = width / widthHeightRatio
+        previewImage.frame.size = CGSize(width: width, height: height)
+        
         previewImage.center = self.view.center
-        previewImage.bounds = CGRect(x: self.view.center.x,
-                                     y: self.view.center.y,
-                                     width: self.capturedPhoto.size.width,
-                                     height: self.capturedPhoto.size.height)
         
         // set image display to photo captured in previous vc
-        self.previewImage.image = capturedPhoto //UIImage(named: "testImage")
+        self.previewImage.image = capturedPhoto // UIImage(named: "testImage")
         self.previewImage.layer.addSublayer(frameSublayer)
         
         guard let features = visionText, let image = capturedPhoto else {
@@ -53,22 +54,22 @@ class PreviewViewController: UIViewController {
             }
         }
         
-        // alert containing detected text
-        
-        let okAlert = UIAlertAction(title: "OK", style: .default) { (action) in
-            // move on to next vc with parsed event info
-        }
-        let retakeAlert = UIAlertAction(title: "Retake photo", style: .default) { (action) in
-            // return to camera vc
-        }
-        // displays detected text in popup window
-        let alert = UIAlertController(title: "Detected text", message: visionText.text, preferredStyle: .alert)
-        alert.addAction(okAlert)
-        alert.addAction(retakeAlert)
-        
-        self.present(alert, animated: true) {
-            print("alert was presented")
-        }
+//        // alert containing detected text
+//
+//        let okAlert = UIAlertAction(title: "OK", style: .default) { (action) in
+//            // move on to next vc with parsed event info
+//        }
+//        let retakeAlert = UIAlertAction(title: "Retake photo", style: .default) { (action) in
+//            // return to camera vc
+//        }a
+//        // displays detected text in popup window
+//        let alert = UIAlertController(title: "Detected text", message: visionText.text, preferredStyle: .alert)
+//        alert.addAction(okAlert)
+//        alert.addAction(retakeAlert)
+//
+//        self.present(alert, animated: true) {
+//            print("alert was presented")
+//        }
     }
     
     // MARK: - Navigation
@@ -157,7 +158,7 @@ class PreviewViewController: UIViewController {
 // MARK: - Fileprivate
 
 fileprivate enum Constants {
-    static let lineWidth: CGFloat = 3.0
-    static let lineColor = UIColor.yellow.cgColor
+    static let lineWidth: CGFloat = 1.0
+    static let lineColor = UIColor.red.cgColor
     static let fillColor = UIColor.clear.cgColor
 }
