@@ -54,25 +54,34 @@ class PreviewViewController: UIViewController {
             }
         }
         
-        // alert containing detected text
-
-        let okAlert = UIAlertAction(title: "OK", style: .default) { (action) in
-            // move on to next vc with parsed event info
-        }
-        let retakeAlert = UIAlertAction(title: "Retake photo", style: .default) { (action) in
-            // return to camera vc
-        }
-        
-        print(visionText.text)
-        
-        // displays detected text in popup window
-        let alert = UIAlertController(title: "Detected text", message: visionText.text, preferredStyle: .alert)
-        alert.addAction(okAlert)
-        alert.addAction(retakeAlert)
-
-        self.present(alert, animated: true) {
-            print("alert was presented")
-        }
+//        // alert containing detected text
+//        let okAlert = UIAlertAction(title: "OK", style: .default) { (action) in
+//            // move on to next vc with parsed event info
+//            self.performSegue(withIdentifier: "showEventInfo", sender: nil)
+//        }
+//        let retakeAlert = UIAlertAction(title: "Retake photo", style: .default) { (action) in
+//            // return to camera vc
+//            self.performSegue(withIdentifier: "retakePhoto", sender: nil)
+//        }
+//
+//        print(visionText.text)
+//
+//        // displays detected text in popup window
+//        let alert = UIAlertController(title: "Detected text", message: visionText.text, preferredStyle: .alert)
+//        alert.addAction(okAlert)
+//        alert.addAction(retakeAlert)
+//
+//        self.present(alert, animated: true) {
+//            print("alert was presented")
+//        }
+    }
+    
+    // MARK: Actions
+    @IBAction func okButton(_ sender: UIButton) {
+        self.performSegue(withIdentifier: "showEventInfo", sender: self)
+    }
+    @IBAction func cancelButton(_ sender: UIButton) {
+        self.performSegue(withIdentifier: "retakePhoto", sender: self)
     }
     
     // MARK: - Navigation
@@ -81,6 +90,11 @@ class PreviewViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
+        if segue.identifier == "showEventInfo" {
+            let eventVC = segue.destination as! EventViewController
+            // Pass the selected object to the new view controller.
+            eventVC.detectedText = visionText!.text
+        }
     }
     
     // MARK: Image Drawing - from Google's codelab example

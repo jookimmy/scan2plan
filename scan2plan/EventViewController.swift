@@ -14,6 +14,8 @@ class EventViewController: UIViewController {
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var locationTextField: UITextField!
     @IBOutlet weak var startDateTimeField: UIDatePicker!
+    
+    // Passed from PreviewViewController
     var detectedText = String()
     
     override func viewDidLoad() {
@@ -35,33 +37,38 @@ class EventViewController: UIViewController {
         let eventString = detectedText
         let range = NSRange(eventString.startIndex..<eventString.endIndex, in: eventString)
         let detectionTypes: NSTextCheckingResult.CheckingType = [.date, .address]
-        let detector = try NSDataDetector(types: detectionTypes.rawValue)
-        detector.enumerateMatches(in: eventString, options: [], range: range) { (match, flags, _) in
-            guard let match = match else {
-                return
-            }
-            
-            switch match.resultType {
-            case .date:
-                let detectedDate = match.date
-                print(detectedDate)
-                startDateTimeField.date = detectedDate
-            case .address:
-                if let components = match.components {
-                    var addressComponents = [components[.name], components[.street], components[.city], components[.state], components[.zip], components[.country]]
-                    var addressString = ""
-                    for c in addressComponents {
-                        if c == nil {
-                            continue
-                        }
-                        addressComponents.append(" ")
-                        addressComponents.append(c)
-                    }
-                    locationTextField.text = addressString
+        
+        do {
+            let detector = try NSDataDetector(types: detectionTypes.rawValue)
+            detector.enumerateMatches(in: eventString, options: [], range: range) { (match, flags, _) in
+                guard let match = match else {
+                    return
                 }
-            default:
-                return
+                
+                switch match.resultType {
+                case .date:
+                    let detectedDate = match.date
+                    print(detectedDate!)
+                    startDateTimeField.date = detectedDate!
+                case .address:
+                    if let components = match.components {
+                        var addressComponents = [components[.name], components[.street], components[.city], components[.state], components[.zip], components[.country]]
+                        var addressString = ""
+                        for c in addressComponents {
+                            if c == nil {
+                                continue
+                            }
+                            addressComponents.append(" ")
+                            addressComponents.append(c)
+                        }
+                        locationTextField.text = addressString
+                    }
+                default:
+                    return
+                }
             }
+        } catch {
+            return
         }
 //        let dataDetector = NSDataDetector(types: detectionTypes.rawValue, error: nil)
 //        dataDetector?.enumerateMatchesInString(detectedText, options: nil, range: NSMakeRange(0, eventString.length)) { (match, flags, _) in
@@ -95,6 +102,8 @@ class EventViewController: UIViewController {
         return dateTime!
     }
 
+    // MARK: Actions
+    
     @IBAction func addEventToCalendar(_ sender: Any) {
         let eventStore:EKEventStore = EKEventStore()
         
@@ -104,12 +113,14 @@ class EventViewController: UIViewController {
                 print("Error: \(String(describing: error))")
                 
                 let event:EKEvent = EKEvent(eventStore: eventStore)
-                event.title = titleTextField.text
-                event.startDate = startDateTimeField.date
-                event.endDate = startDateTimeField.date + 1800 //1800 seconds is the equivelant to 30 minutes
-                event.location = locationTextField.text
-                event.notes = "Just a test of date creation"
-                event.calendar = eventStore.defaultCalendarForNewEvents
+                DispatchQueue.main.async {
+                    event.title = self.titleTextField.text
+                    event.startDate = self.startDateTimeField.date
+                    event.endDate = self.startDateTimeField.date + 1800 //1800 seconds is the equivelant to 30 minutes
+                    event.location = self.locationTextField.text
+                    event.notes = "Just a test of date creation"
+                    event.calendar = eventStore.defaultCalendarForNewEvents
+                }
                 do {
                     try eventStore.save(event, span: .thisEvent)
                 } catch let error as NSError {
@@ -119,6 +130,8 @@ class EventViewController: UIViewController {
                 print("error: \(error)")
             }
         })
+        
+        self.performSegue(withIdentifier: "returnToCamera", sender: self)
     }
 
     /*

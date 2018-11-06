@@ -109,14 +109,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, AVCaptu
         // upper buttons
         self.cameraRollButton.frame = CGRect(x: (bounds.width*11)/12 - bounds.width/18, y: (bounds.height)/12, width: bounds.width/9, height: bounds.width/9)
         self.view.addSubview(cameraRollButton)
-        
-//        self.eventTestButton.frame = CGRect(x: (bounds.width*11)/12 - bounds.width/18, y: (bounds.height)/12, width: bounds.width/9, height: bounds.width/9)
-        self.view.addSubview(eventTestButton)
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?, visionText: String) {
-        var eventViewController = segue.destination as! EventViewController
-        eventViewController.detectedText = visionText
     }
     
     override func viewDidLayoutSubviews() {
@@ -250,17 +242,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, AVCaptu
         let cgImage = photo.cgImageRepresentation()!.takeUnretainedValue()
         print(kCGImagePropertyOrientation as String)
         let testImage = UIImage(cgImage: cgImage, scale: 1, orientation: UIImage.Orientation.up)
+        // assumes that image orientation is .right (might need to fix this later)
         let rotated = testImage.rotate(radians: .pi/2)
-        
-        print("ORIENTATION:")
-        print(testImage.imageOrientation == UIImage.Orientation.up)
-        print(testImage.imageOrientation == UIImage.Orientation.down)
-        print(testImage.imageOrientation == UIImage.Orientation.left)
-        print(testImage.imageOrientation == UIImage.Orientation.right)
-        print()
-        print()
-        print()
-        print()
         
         self.runTextRecognition(with: rotated!)
     }
