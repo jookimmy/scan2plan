@@ -10,6 +10,9 @@ import UIKit
 import AVFoundation
 import Vision
 import Photos
+import Firebase
+import FirebaseMLVision
+
 
 class ViewController: UIViewController, UIImagePickerControllerDelegate, AVCapturePhotoCaptureDelegate, UINavigationControllerDelegate {
     
@@ -19,12 +22,22 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, AVCaptu
     internal var previewView: UIView?
     let imagePicker = UIImagePickerController()
     
+    // Mobile Vision stuff
+    private lazy var vision = Vision.vision()
+    private lazy var textRecognizer = vision.onDeviceTextRecognizer()
+    
+    // objects to pass to Preview VC
+    var imageTaken: UIImage!
+    var visionText: VisionText!
+    
     //MARK: Outlets
     @IBOutlet weak var cameraRollButton: UIButton!
-    @IBOutlet weak var profileButton: UIButton!
     @IBOutlet weak var flashButton: UIButton!
     @IBOutlet weak var flipCameraButton: UIButton!
     @IBOutlet weak var capturePhotoButton: UIButton!
+    @IBOutlet weak var eventTestButton: UIButton!
+    
+    var backCamera = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,7 +53,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, AVCaptu
         } else {
             print("previewView not added")
         }
-        
+        // setup vision stuff
+        vision = Vision.vision()
         captureSession = AVCaptureSession()
         captureSession.beginConfiguration()
         captureSession.sessionPreset = AVCaptureSession.Preset.photo
@@ -55,12 +69,12 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, AVCaptu
                 print("granted")
                 //Set up session
                 if let input = try? AVCaptureDeviceInput(device: device!) {
-                    print("yeah")
+                    print("valid input")
                     if (self.captureSession.canAddInput(input)) {
                         self.captureSession.addInput(input)
-                        print("yeah2")
+                        print("added input")
                         if (self.captureSession.canAddOutput(self.photoOutput)) {
-                            print("yeah3")
+                            print("added output")
                             self.captureSession.addOutput(self.photoOutput)
                             self.previewLayer = AVCaptureVideoPreviewLayer(session: self.captureSession)
                             self.previewLayer?.videoGravity = AVLayerVideoGravity.resizeAspectFill
@@ -75,7 +89,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, AVCaptu
                 
             }
             else {
-                print("Goodbye")
+                print("Access to camera denied")
             }
         })
         captureSession.commitConfiguration()
@@ -93,10 +107,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, AVCaptu
         self.view.addSubview(flashButton)
         
         // upper buttons
-        
-        self.profileButton.frame = CGRect(x: bounds.width/12, y: (bounds.height)/12, width: bounds.width/9, height: bounds.width/9)
-        self.view.addSubview(profileButton)
-        
         self.cameraRollButton.frame = CGRect(x: (bounds.width*11)/12 - bounds.width/18, y: (bounds.height)/12, width: bounds.width/9, height: bounds.width/9)
         self.view.addSubview(cameraRollButton)
     }
@@ -124,7 +134,11 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, AVCaptu
         print([kCVPixelBufferPixelFormatTypeKey : arr[0]])
         
         //creates capture photosettings object
-        let cameraPhotoSettings = AVCapturePhotoSettings(format: [kCVPixelBufferPixelFormatTypeKey as String : arr[0]])
+        let cameraPhotoSettings = AVCapturePhotoSettings()
+        print(cameraPhotoSettings.format!)
+        print()
+        print()
+        print()
         
         //take photo
         photoOutput.capturePhoto(with: cameraPhotoSettings, delegate: self)
@@ -132,6 +146,62 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, AVCaptu
     
     // switch from selfie to back camera
     @IBAction func switchCameraOrientation(_ sender: UIButton) {
+        // checks which camera the app is currently using (front or back)
+        if self.backCamera {
+            // we're currently using the back camera, so we want to switch to the front
+            // begins changing the capture session
+            captureSession.beginConfiguration()
+            // removes previous captureSession inputs
+            for input in captureSession!.inputs {
+                captureSession!.removeInput(input)
+            }
+            // creates new discoverySession
+            let discoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera], mediaType: AVMediaType.video, position: .front)
+            
+            // uses discovery session to find all devices that matched our preferences (front camera)
+            let devices = discoverySession.devices
+            
+            // gets first device out of that list
+            let device = devices.first
+            
+            // used device to (attempt to) create new AVCaptureDeviceInput
+            if let input = try? AVCaptureDeviceInput(device: device!) {
+                print("allowed new input")
+                
+                // made sure the captureSession can add a new input
+                if (self.captureSession.canAddInput(input)) {
+                    self.captureSession.addInput(input)
+                    print("switched camera")
+                    
+                    // we're now using the front camera, so we set backCamera to false
+                    self.backCamera = false
+                }
+            }
+            // commits changes to captureSession
+            captureSession.commitConfiguration()
+        } else {
+            
+            // we're using the front camera
+            captureSession.beginConfiguration()
+            for input in captureSession!.inputs {
+                captureSession!.removeInput(input)
+            }
+            
+            // creates discoverySession that looks for back cameras
+            let discoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera, .builtInDualCamera, .builtInTrueDepthCamera], mediaType: AVMediaType.video, position: .back)
+            let devices = discoverySession.devices
+            let device = devices.first
+            if let input = try? AVCaptureDeviceInput(device: device!) {
+                print("allowed new input")
+                if (self.captureSession.canAddInput(input)) {
+                    self.captureSession.addInput(input)
+                    print("switched camera")
+                    self.backCamera = true
+                }
+            }
+            // ends changes
+            captureSession.commitConfiguration()
+        }
     }
     
 //    @IBAction func importFromCameraRoll(_ sender: UIButton) {
@@ -154,6 +224,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, AVCaptu
         self.dismiss(animated: true, completion: nil)
     }
     
+    // Implement later
     @IBAction func useFlash(_ sender: UIButton) {
     }
     
@@ -162,11 +233,19 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, AVCaptu
     func photoOutput(_ output: AVCapturePhotoOutput,
                      didFinishProcessingPhoto photo: AVCapturePhoto,
                      error: Error?) {
-        print("hell ya")
+        print("photo taken")
         PHPhotoLibrary.shared().performChanges( {
             let creationRequest = PHAssetCreationRequest.forAsset()
             creationRequest.addResource(with: PHAssetResourceType.photo, data: photo.fileDataRepresentation()!, options: nil)
         }, completionHandler: nil)
+        
+        let cgImage = photo.cgImageRepresentation()!.takeUnretainedValue()
+        print(kCGImagePropertyOrientation as String)
+        let testImage = UIImage(cgImage: cgImage, scale: 1, orientation: UIImage.Orientation.up)
+        // assumes that image orientation is .right (might need to fix this later)
+        let rotated = testImage.rotate(radians: .pi/2)
+        
+        self.runTextRecognition(with: rotated!)
     }
     
     func photoOutput(_ captureOutput: AVCapturePhotoOutput,
@@ -177,5 +256,64 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, AVCaptu
             print("Error in capture process: \(String(describing: error))")
             return
         }
+    }
+    
+    
+    // Text recognition functions
+    
+    func runTextRecognition(with image: UIImage) {
+        self.imageTaken = image
+        // creates a vision image from the passed uiimage
+        let visionImage = VisionImage(image: image)
+        textRecognizer.process(visionImage) { features, error in
+            self.processResult(from: features, error: error)
+        }
+    }
+    
+    func processResult(from text: VisionText?, error: Error?) {
+        guard error == nil, let text = text else {
+            // no text detected
+            print("oops")
+            return
+        }
+        self.visionText = text
+        self.performSegue(withIdentifier: "photoTaken", sender: nil)
+    }
+    
+    // MARK: - Navigation
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destination.
+        if segue.identifier == "photoTaken" {
+            let previewVC = segue.destination as! PreviewViewController
+            // Pass the selected object to the new view controller.
+            previewVC.capturedPhoto = self.imageTaken
+            previewVC.visionText = self.visionText
+        }
+    }
+    
+}
+
+extension UIImage {
+    func rotate(radians: Float) -> UIImage? {
+        var newSize = CGRect(origin: CGPoint.zero, size: self.size).applying(CGAffineTransform(rotationAngle: CGFloat(radians))).size
+        // Trim off the extremely small float value to prevent core graphics from rounding it up
+        newSize.width = floor(newSize.width)
+        newSize.height = floor(newSize.height)
+        
+        UIGraphicsBeginImageContextWithOptions(newSize, true, self.scale)
+        let context = UIGraphicsGetCurrentContext()!
+        
+        // Move origin to middle
+        context.translateBy(x: newSize.width/2, y: newSize.height/2)
+        // Rotate around middle
+        context.rotate(by: CGFloat(radians))
+        // Draw the image at its center
+        self.draw(in: CGRect(x: -self.size.width/2, y: -self.size.height/2, width: self.size.width, height: self.size.height))
+        
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return newImage
     }
 }
