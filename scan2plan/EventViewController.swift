@@ -24,8 +24,9 @@ class EventViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         startDateTimeField.date = createDate(year: 2018, month: 11, day: 8, hour: 19, minute: 30)
-        titleTextField.text = "No Event Name Detected"
-        locationTextField.text = "No Location Detected"
+        titleTextField.text = ""
+        locationTextField.text = ""
+        //URLTextField.text = ""
         informationExtractor()
         detectEventName()
         
@@ -66,7 +67,7 @@ class EventViewController: UIViewController {
         let charsToRemove: Set<Character> = Set("|{}[]()".characters)
         let eventString = String(detectedText.characters.filter { !charsToRemove.contains($0) })
         let range = NSRange(eventString.startIndex..<eventString.endIndex, in: eventString)
-        let detectionTypes: NSTextCheckingResult.CheckingType = [.date, .address]
+        let detectionTypes: NSTextCheckingResult.CheckingType = [.date, .address, .link]
         
         do {
             let detector = try NSDataDetector(types: detectionTypes.rawValue)
@@ -78,14 +79,14 @@ class EventViewController: UIViewController {
                 switch match.resultType {
                 case .date:
                     let detectedDate = match.date
-                    print()
-                    print()
-                    print()
-                    print("THIS IS THE DATE")
-                    print(match.date)
-                    print()
-                    print()
-                    print()
+//                    print()
+//                    print()
+//                    print()
+//                    print("THIS IS THE DATE")
+//                    print(match.date)
+//                    print()
+//                    print()
+//                    print()
                     startDateTimeField.date = detectedDate!
                 case .address:
                     if let components = match.components {
@@ -100,6 +101,9 @@ class EventViewController: UIViewController {
                         }
                         locationTextField.text = addressString
                     }
+                case .link:
+                    let detectedURL = match.url
+                    //URLTextField.text = detectedURL!
                 default:
                     return
                 }
