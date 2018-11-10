@@ -74,6 +74,7 @@ class PreviewViewController: UIViewController {
             let eventVC = segue.destination as! EventViewController
             // Pass the selected object to the new view controller.
             eventVC.detectedText = visionText!.text
+            eventVC.visionText = self.visionText!
         }
     }
     
