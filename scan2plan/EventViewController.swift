@@ -78,7 +78,14 @@ class EventViewController: UIViewController {
                 switch match.resultType {
                 case .date:
                     let detectedDate = match.date
+                    print()
+                    print()
+                    print()
+                    print("THIS IS THE DATE")
                     print(match.date)
+                    print()
+                    print()
+                    print()
                     startDateTimeField.date = detectedDate!
                 case .address:
                     if let components = match.components {
