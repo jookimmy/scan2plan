@@ -27,10 +27,10 @@ class EventViewController: UIViewController {
         titleTextField.text = "No Event Name Detected"
         locationTextField.text = "No Location Detected"
         informationExtractor()
+        detectEventName()
         
         for block in visionText.blocks {
             print(block.text)
-            print(block.confidence as Any)
             print(block.frame.size.height)
         }
         
@@ -41,7 +41,27 @@ class EventViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+    func detectEventName() {
+        var maxHeight = visionText.blocks[0].frame.size.height
+        var blockWithMax = visionText.blocks[0].text
+        for block in visionText.blocks {
+            if block.frame.size.height > maxHeight {
+                maxHeight = block.frame.size.height
+                blockWithMax = block.text
+            }
+        }
+        titleTextField.text = blockWithMax.capitalized
+        print()
+        print()
+        print()
+        print("THIS IS THE MAX HEIGHT: ")
+        print(maxHeight)
+        print("THIS IS TEXT WITH MAX HEIGHT: ")
+        print(blockWithMax)
+        print()
+        print()
+        print()
+    }
     func informationExtractor() {
         let eventString = detectedText
         let range = NSRange(eventString.startIndex..<eventString.endIndex, in: eventString)
@@ -57,6 +77,7 @@ class EventViewController: UIViewController {
                 switch match.resultType {
                 case .date:
                     let detectedDate = match.date
+                    print(match.date)
                     startDateTimeField.date = detectedDate!
                 case .address:
                     if let components = match.components {
