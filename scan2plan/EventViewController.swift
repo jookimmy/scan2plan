@@ -1,5 +1,5 @@
 //
-//  eventViewController.swift
+//  EventViewController.swift
 //  scan2plan
 //
 //  Created by Mulye, Daman on 10/20/18.
@@ -48,14 +48,7 @@ class EventViewController: UIViewController {
                 switch match.resultType {
                 case .date:
                     let detectedDate = match.date
-                    print()
-                    print()
-                    print()
-                    print()
-                    print()
-                    print()
-                    print(detectedDate!)
-//                    startDateTimeField.date = detectedDate!
+                    startDateTimeField.date = detectedDate!
                 case .address:
                     if let components = match.components {
                         var addressComponents = [components[.name], components[.street], components[.city], components[.state], components[.zip], components[.country]]
