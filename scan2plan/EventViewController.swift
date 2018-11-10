@@ -24,8 +24,8 @@ class EventViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         startDateTimeField.date = createDate(year: 2018, month: 11, day: 8, hour: 19, minute: 30)
-        titleTextField.text = "MAMMA MIA!"
-        locationTextField.text = "Lincoln Hall Theatre"
+        titleTextField.text = "No Event Name Detected"
+        locationTextField.text = "No Location Detected"
         informationExtractor()
         
         for block in visionText.blocks {
