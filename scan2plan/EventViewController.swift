@@ -11,24 +11,44 @@ import EventKit
 import Firebase
 import FirebaseMLVision
 
-class EventViewController: UIViewController, UITableViewDataSource {
+class EventViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
-    @IBOutlet weak var titleTextField: UITableViewCell!
-    @IBOutlet weak var locationTextField: UITableViewCell!
-    @IBOutlet weak var startDateTimeField: UIDatePicker!
+//    @IBOutlet weak var titleTextField: UITableViewCell!
+//    @IBOutlet weak var locationTextField: UITableViewCell!
+//    @IBOutlet weak var startDateTimeField: UIDatePicker!
     
+    let pickerAnimationDuration = 0.40 // duration for the animation to slide the date picker into view
+    let datePickerTag           = 99   // view tag identifiying the date picker view
+    
+    let titleKey = "title" // key for obtaining the data source item's title
+    let dateKey  = "date"  // key for obtaining the data source item's date value
+    
+    // keep track of which rows have date cells
+    let dateStartRow = 1
+    let dateEndRow   = 2
+    
+    let dateCellID       = "dateCell";       // the cells with the start or end date
+    let datePickerCellID = "datePickerCell"; // the cell containing the date picker
+    let otherCellID      = "otherCell";      // the remaining cells at the end
+    var dataArray: [[String: AnyObject]] = []
+    var dateFormatter = DateFormatter()
+    
+    // keep track which indexPath points to the cell with UIDatePicker
+    var datePickerIndexPath: NSIndexPath?
+    
+    var pickerCellRowHeight: CGFloat = 216
     // Passed from PreviewViewController
     var detectedText = String()
     var visionText: VisionText!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        startDateTimeField.date = createDate(year: 2018, month: 11, day: 8, hour: 19, minute: 30)
-        titleTextField.text = ""
-        locationTextField.text = ""
-        //URLTextField.text = ""
-        informationExtractor()
-        detectEventName()
+        //startDateTimeField.date = createDate(year: 2018, month: 11, day: 8, hour: 19, minute: 30)
+//        titleTextField.text = ""
+//        locationTextField.text = ""
+//        URLTextField.text = ""
+//        informationExtractor()
+//        detectEventName()
         
         for block in visionText.blocks {
             print(block.text)
@@ -36,12 +56,42 @@ class EventViewController: UIViewController, UITableViewDataSource {
         }
         
         // Do any additional setup after loading the view.
+        
+        // setup our data source
+        let itemOne = [titleKey : "Tap a cell to change its date:"]
+        let itemTwo = [titleKey : "Start Date", dateKey : NSDate()] as [String : Any]
+        let itemThree = [titleKey : "End Date", dateKey : NSDate()] as [String : Any]
+        let itemFour = [titleKey : "(other item1)"]
+        let itemFive = [titleKey : "(other item2)"]
+        dataArray = [itemOne as Dictionary<String, AnyObject>, itemTwo as Dictionary<String, AnyObject>, itemThree as Dictionary<String, AnyObject>, itemFour as Dictionary<String, AnyObject>, itemFive as Dictionary<String, AnyObject>]
+        
+        dateFormatter.dateStyle = .short // show short-style date format
+        dateFormatter.timeStyle = .short
+        
+        // if the local changes while in the background, we need to be notified so we can update the date
+        // format in the table view cells
+        //
+        NotificationCenter.default.addObserver(self, selector: #selector(DateCellTableViewController.localeChanged(notif:)), name: NSLocale.currentLocaleDidChangeNotification, object: nil)
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 0
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let myCell = tableView.dequeueReusableCell(withIdentifier: "DateCell", for: indexPath)
+        return myCell
+    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+    }
+    
     func detectEventName() {
         var maxHeight = visionText.blocks[0].frame.size.height
         var blockWithMax = visionText.blocks[0].text
@@ -111,6 +161,13 @@ class EventViewController: UIViewController, UITableViewDataSource {
         } catch {
             return
         }
+        
+        
+        
+        
+        
+        
+        
 //        let dataDetector = NSDataDetector(types: detectionTypes.rawValue, error: nil)
 //        dataDetector?.enumerateMatchesInString(detectedText, options: nil, range: NSMakeRange(0, eventString.length)) { (match, flags, _) in
 //            let matchString = eventString.substringWithRange(match.rnage)
