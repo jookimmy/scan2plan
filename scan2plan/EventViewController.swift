@@ -63,7 +63,8 @@ class EventViewController: UIViewController {
         print()
     }
     func informationExtractor() {
-        let eventString = detectedText
+        let charsToRemove: Set<Character> = Set("|{}[]()".characters)
+        let eventString = String(detectedText.characters.filter { !charsToRemove.contains($0) })
         let range = NSRange(eventString.startIndex..<eventString.endIndex, in: eventString)
         let detectionTypes: NSTextCheckingResult.CheckingType = [.date, .address]
         
