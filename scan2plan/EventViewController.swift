@@ -11,10 +11,10 @@ import EventKit
 import Firebase
 import FirebaseMLVision
 
-class EventViewController: UIViewController {
+class EventViewController: UIViewController, UITableViewDataSource {
     
-    @IBOutlet weak var titleTextField: UITextField!
-    @IBOutlet weak var locationTextField: UITextField!
+    @IBOutlet weak var titleTextField: UITableViewCell!
+    @IBOutlet weak var locationTextField: UITableViewCell!
     @IBOutlet weak var startDateTimeField: UIDatePicker!
     
     // Passed from PreviewViewController
