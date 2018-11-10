@@ -207,12 +207,22 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="84d-f0-vpc">
-                                <rect key="frame" x="0.0" y="608" width="414" height="51"/>
+                                <rect key="frame" x="197" y="606" width="217" height="51"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title="Add Event"/>
                                 <connections>
                                     <action selector="addEventToCalendar:" destination="6xD-Uc-iwr" eventType="touchUpInside" id="4aB-ZT-318"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Ic-H4-Org">
+                                <rect key="frame" x="70" y="616" width="48" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Cancel">
+                                    <color key="titleColor" red="1" green="0.21524352629999999" blue="0.1811760781" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </state>
+                                <connections>
+                                    <segue destination="BYZ-38-t0r" kind="show" id="0h7-2G-vfK"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -239,6 +249,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="H3B-aj-6rR"/>
-        <segue reference="W65-0J-aYb"/>
+        <segue reference="BgU-7w-PRH"/>
     </inferredMetricsTieBreakers>
 </document>
