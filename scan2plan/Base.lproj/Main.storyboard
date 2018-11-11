@@ -160,7 +160,11 @@
                                         <rect key="frame" x="-8" y="28" width="414" height="44"/>
                                         <items>
                                             <navigationItem title="New Event" id="bNa-Lb-ccr">
-                                                <barButtonItem key="rightBarButtonItem" title="Add" id="NQb-CF-eds"/>
+                                                <barButtonItem key="rightBarButtonItem" title="Add" id="NQb-CF-eds">
+                                                    <connections>
+                                                        <action selector="addEventToCalendar:" destination="6xD-Uc-iwr" id="b6U-ap-EdD"/>
+                                                    </connections>
+                                                </barButtonItem>
                                             </navigationItem>
                                         </items>
                                     </navigationBar>
@@ -202,11 +206,14 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="414" height="215.66666666666666"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
-                                                        <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="hPd-ak-ycl">
-                                                            <rect key="frame" x="0.0" y="23" width="414" height="216"/>
+                                                        <datePicker tag="99" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="hPd-ak-ycl">
+                                                            <rect key="frame" x="0.0" y="-1" width="414" height="216"/>
                                                             <date key="date" timeIntervalSinceReferenceDate="563586116.37368202">
                                                                 <!--2018-11-10 23:41:56 +0000-->
                                                             </date>
+                                                            <connections>
+                                                                <action selector="dateAction:" destination="6xD-Uc-iwr" eventType="valueChanged" id="aiO-Xh-FQM"/>
+                                                            </connections>
                                                         </datePicker>
                                                     </subviews>
                                                     <constraints>
@@ -235,6 +242,10 @@
                                                 </tableViewCellContentView>
                                             </tableViewCell>
                                         </prototypes>
+                                        <connections>
+                                            <outlet property="dataSource" destination="6xD-Uc-iwr" id="idl-Jn-qIU"/>
+                                            <outlet property="delegate" destination="6xD-Uc-iwr" id="VlI-Jv-wFk"/>
+                                        </connections>
                                     </tableView>
                                 </subviews>
                                 <constraints>
@@ -259,6 +270,8 @@
                         <viewLayoutGuide key="safeArea" id="xs8-GY-6bj"/>
                     </view>
                     <connections>
+                        <outlet property="myTableView" destination="gsh-8B-lCG" id="iqk-RP-vvW"/>
+                        <outlet property="tableView" destination="gsh-8B-lCG" id="TYm-Wo-Dve"/>
                         <segue destination="BYZ-38-t0r" kind="show" identifier="returnToCamera" id="BgU-7w-PRH"/>
                     </connections>
                 </viewController>
