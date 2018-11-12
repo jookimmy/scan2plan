@@ -5,7 +5,6 @@
 //  Created by Mulye, Daman on 10/20/18.
 //  Copyright © 2018 CS196Illinois. All rights reserved.
 //
-
 import UIKit
 import EventKit
 import Firebase
@@ -24,28 +23,40 @@ class EventViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         startDateTimeField.date = createDate(year: 2018, month: 11, day: 8, hour: 19, minute: 30)
-        titleTextField.text = "No Event Name Detected"
-        locationTextField.text = "No Location Detected"
+        titleTextField.text = ""
+        locationTextField.text = ""
+        //URLTextField.text = ""
         informationExtractor()
+        detectEventName()
         
         for block in visionText.blocks {
             print(block.text)
-            print(block.confidence as Any)
             print(block.frame.size.height)
         }
         
         // Do any additional setup after loading the view.
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+    func detectEventName() {
+        var maxHeight = visionText.blocks[0].frame.size.height
+        var blockWithMax = visionText.blocks[0].text
+        for block in visionText.blocks {
+            if block.frame.size.height > maxHeight {
+                maxHeight = block.frame.size.height
+                blockWithMax = block.text
+            }
+        }
+        titleTextField.text = blockWithMax.capitalized
+    }
     func informationExtractor() {
-        let eventString = detectedText
+        let charsToRemove: Set<Character> = Set("|{}[]()".characters)
+        let eventString = String(detectedText.characters.filter { !charsToRemove.contains($0) })
         let range = NSRange(eventString.startIndex..<eventString.endIndex, in: eventString)
-        let detectionTypes: NSTextCheckingResult.CheckingType = [.date, .address]
+        let detectionTypes: NSTextCheckingResult.CheckingType = [.date, .address, .link]
         
         do {
             let detector = try NSDataDetector(types: detectionTypes.rawValue)
@@ -71,6 +82,9 @@ class EventViewController: UIViewController {
                         }
                         locationTextField.text = addressString
                     }
+                case .link:
+                    let detectedURL = match.url
+                //URLTextField.text = detectedURL!
                 default:
                     return
                 }
@@ -78,19 +92,19 @@ class EventViewController: UIViewController {
         } catch {
             return
         }
-//        let dataDetector = NSDataDetector(types: detectionTypes.rawValue, error: nil)
-//        dataDetector?.enumerateMatchesInString(detectedText, options: nil, range: NSMakeRange(0, eventString.length)) { (match, flags, _) in
-//            let matchString = eventString.substringWithRange(match.rnage)
-//            if match.resultType == .Date {
-//                println("Matched Date: \(matchString); \n- Date: \(match.date)")
-//            } else if match.resultType == .Address {
-//                if let addressComponents = match.addressComponents as NSDictionary? {
-//                    println("Match: \(matchString); \n- Street: \(addressComponents[NSTextCheckingStreetKey]);\n- Zip: \(addressComponents[NSTextCheckingZIPKey])")
-//                }
-//            } else {
-//                println("Match: \(matchString)")
-//            }
-//        }
+        //        let dataDetector = NSDataDetector(types: detectionTypes.rawValue, error: nil)
+        //        dataDetector?.enumerateMatchesInString(detectedText, options: nil, range: NSMakeRange(0, eventString.length)) { (match, flags, _) in
+        //            let matchString = eventString.substringWithRange(match.rnage)
+        //            if match.resultType == .Date {
+        //                println("Matched Date: \(matchString); \n- Date: \(match.date)")
+        //            } else if match.resultType == .Address {
+        //                if let addressComponents = match.addressComponents as NSDictionary? {
+        //                    println("Match: \(matchString); \n- Street: \(addressComponents[NSTextCheckingStreetKey]);\n- Zip: \(addressComponents[NSTextCheckingZIPKey])")
+        //                }
+        //            } else {
+        //                println("Match: \(matchString)")
+        //            }
+        //        }
         
     }
     
@@ -102,14 +116,14 @@ class EventViewController: UIViewController {
         dateComponents.day = day
         dateComponents.hour = hour
         dateComponents.minute = minute
-
+        
         // Create date from components
         let userCalendar = Calendar.current // user calendar
         var dateTime: Date? = nil
-        dateTime = userCalendar.date(from: dateComponents) 
+        dateTime = userCalendar.date(from: dateComponents)
         return dateTime!
     }
-
+    
     // MARK: Actions
     
     @IBAction func addEventToCalendar(_ sender: Any) {
@@ -141,15 +155,14 @@ class EventViewController: UIViewController {
         
         self.performSegue(withIdentifier: "returnToCamera", sender: self)
     }
-
+    
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // MARK: - Navigation
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destinationViewController.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }
