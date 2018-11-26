@@ -20,7 +20,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, AVCaptu
     var photoOutput = AVCapturePhotoOutput()
     var previewLayer: AVCaptureVideoPreviewLayer!
     internal var previewView: UIView?
-    let imagePicker = UIImagePickerController()
     
     // Mobile Vision stuff
     private lazy var vision = Vision.vision()
@@ -41,8 +40,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, AVCaptu
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.imagePicker.delegate = self
         
         let bounds:CGRect = self.view.layer.bounds
         self.previewView = UIView(frame: bounds)
@@ -200,18 +197,21 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, AVCaptu
         }
     }
     
-    private func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        if let image = info["UIImagePickerControllerOriginalImage"] as? UIImage {
-            print(image.size)
-        } else {
-            print("error")
-        }
-        self.dismiss(animated: true, completion: nil)
-    }
-    
     // Implement later
     @IBAction func useFlash(_ sender: UIButton) {
     }
+    
+    // upload from camera roll
+    @IBAction func upload(_ sender: UIButton) {
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        imagePicker.sourceType = UIImagePickerController.SourceType.photoLibrary
+        imagePicker.allowsEditing = false
+        self.present(imagePicker, animated: true)
+        {
+        }
+    }
+    
     
     // AVCapturePhotoCaptureDelegate stuff
     
@@ -246,9 +246,9 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, AVCaptu
     
     
     // Text recognition functions
-    
     func runTextRecognition(with image: UIImage) {
         self.imageTaken = image
+        print("here")
         // creates a vision image from the passed uiimage
         let visionImage = VisionImage(image: image)
         textRecognizer.process(visionImage) { features, error in
@@ -276,6 +276,21 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, AVCaptu
             previewVC.capturedPhoto = self.imageTaken
             previewVC.visionText = self.visionText
         }
+    }
+    
+    // MARK: UIImagePickerControllerDelegate
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            self.runTextRecognition(with: image)
+        } else {
+            print("error")
+        }
+        self.dismiss(animated: false, completion: nil)
     }
     
 }
