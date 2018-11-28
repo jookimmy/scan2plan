@@ -48,6 +48,8 @@ class ViewController: UIViewController {
         let bounds:CGRect = self.view.layer.bounds
         self.previewView = UIView(frame: bounds)
         
+        self.focusView = FocusIndicatorView(frame: .zero)
+        
         if let previewView = self.previewView {
             self.view.addSubview(previewView)
             self.previewView?.sendSubviewToBack(self.view)
@@ -118,7 +120,7 @@ class ViewController: UIViewController {
             gestureView.backgroundColor = .clear
             self.view.addSubview(gestureView)
             
-            self.focusTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleFocusTapGestureRecognizer(_:)))
+            self.focusTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.handleFocusTapGestureRecognizer(_:)))
             if let focusTapGestureRecognizer = self.focusTapGestureRecognizer {
                 focusTapGestureRecognizer.delegate = self
                 focusTapGestureRecognizer.numberOfTapsRequired = 1
@@ -320,6 +322,12 @@ extension ViewController: UIGestureRecognizerDelegate {
             
             self.previewView?.addSubview(focusView)
             focusView.startAnimation()
+            print("focusing here")
+            
+            // stops animation after 0.4 seconds
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                focusView.stopAnimation()
+            }
         }
         
         let adjustedPoint = previewLayer.captureDevicePointConverted(fromLayerPoint: tapPoint)
