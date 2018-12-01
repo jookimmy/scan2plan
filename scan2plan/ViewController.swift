@@ -1,6 +1,5 @@
 //
 //  ViewController.swift
-//  BlinkCam
 //
 //  Created by Jackie Oh on 7/5/17.
 //  Copyright © 2017 Jackie Oh. All rights reserved.
@@ -14,13 +13,17 @@ import Firebase
 import FirebaseMLVision
 
 
-class ViewController: UIViewController, UIImagePickerControllerDelegate, AVCapturePhotoCaptureDelegate, UINavigationControllerDelegate {
+class ViewController: UIViewController {
     
     var captureSession: AVCaptureSession!
     var photoOutput = AVCapturePhotoOutput()
+    var device: AVCaptureDevice!
+    
     var previewLayer: AVCaptureVideoPreviewLayer!
     internal var previewView: UIView?
-    let imagePicker = UIImagePickerController()
+    internal var gestureView: UIView?
+    internal var focusTapGestureRecognizer: UITapGestureRecognizer?
+    internal var focusView: FocusIndicatorView?
     
     // Mobile Vision stuff
     private lazy var vision = Vision.vision()
@@ -31,21 +34,21 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, AVCaptu
     var visionText: VisionText!
     
     //MARK: Outlets
+    
     @IBOutlet weak var cameraRollButton: UIButton!
     @IBOutlet weak var flashButton: UIButton!
     @IBOutlet weak var flipCameraButton: UIButton!
     @IBOutlet weak var capturePhotoButton: UIButton!
-    @IBOutlet weak var eventTestButton: UIButton!
     
     var backCamera = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.imagePicker.delegate = self
-        
         let bounds:CGRect = self.view.layer.bounds
         self.previewView = UIView(frame: bounds)
+        
+        self.focusView = FocusIndicatorView(frame: .zero)
         
         if let previewView = self.previewView {
             self.view.addSubview(previewView)
@@ -63,12 +66,12 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, AVCaptu
         let discoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera], mediaType: AVMediaType.video, position: .back)
         
         let devices = discoverySession.devices
-        let device = devices.first
+        self.device = devices.first
         AVCaptureDevice.requestAccess(for: AVMediaType.video, completionHandler: { (granted: Bool) in
             if granted {
                 print("granted")
                 //Set up session
-                if let input = try? AVCaptureDeviceInput(device: device!) {
+                if let input = try? AVCaptureDeviceInput(device: self.device!) {
                     print("valid input")
                     if (self.captureSession.canAddInput(input)) {
                         self.captureSession.addInput(input)
@@ -109,11 +112,25 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, AVCaptu
         // upper buttons
         self.cameraRollButton.frame = CGRect(x: (bounds.width*11)/12 - bounds.width/18, y: (bounds.height)/12, width: bounds.width/9, height: bounds.width/9)
         self.view.addSubview(cameraRollButton)
+        
+        // gestures
+        self.gestureView = UIView(frame: bounds)
+        if let gestureView = self.gestureView {
+            gestureView.autoresizingMask = [.flexibleWidth, .flexibleBottomMargin]
+            gestureView.backgroundColor = .clear
+            self.view.addSubview(gestureView)
+            
+            self.focusTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.handleFocusTapGestureRecognizer(_:)))
+            if let focusTapGestureRecognizer = self.focusTapGestureRecognizer {
+                focusTapGestureRecognizer.delegate = self
+                focusTapGestureRecognizer.numberOfTapsRequired = 1
+                gestureView.addGestureRecognizer(focusTapGestureRecognizer)
+            }
+        }
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        //        previewLayer.frame = self.view.bounds
     }
     
     
@@ -122,7 +139,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, AVCaptu
         // Dispose of any resources that can be recreated.
     }
     
-    //MARK: Actions
+    // MARK: Actions
+    
     @IBAction func takePhoto(_ sender: UIButton) {
         var arr = Array<Any>()
         if #available(iOS 11.0, *) {
@@ -200,55 +218,46 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, AVCaptu
         }
     }
     
-    private func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        if let image = info["UIImagePickerControllerOriginalImage"] as? UIImage {
-            print(image.size)
-        } else {
-            print("error")
-        }
-        self.dismiss(animated: true, completion: nil)
-    }
-    
     // Implement later
     @IBAction func useFlash(_ sender: UIButton) {
     }
     
-    // AVCapturePhotoCaptureDelegate stuff
-    
-    func photoOutput(_ output: AVCapturePhotoOutput,
-                     didFinishProcessingPhoto photo: AVCapturePhoto,
-                     error: Error?) {
-        print("photo taken")
-        
-        // save to camera roll
-//        PHPhotoLibrary.shared().performChanges( {
-//            let creationRequest = PHAssetCreationRequest.forAsset()
-//            creationRequest.addResource(with: PHAssetResourceType.photo, data: photo.fileDataRepresentation()!, options: nil)
-//        }, completionHandler: nil)
-        
-        let cgImage = photo.cgImageRepresentation()!.takeUnretainedValue()
-        let testImage = UIImage(cgImage: cgImage, scale: 1, orientation: UIImage.Orientation.up)
-        // assumes that image orientation is .right (might need to fix this later)
-        let rotated = testImage.rotate(radians: .pi/2)
-        
-        self.runTextRecognition(with: rotated!)
-    }
-    
-    func photoOutput(_ captureOutput: AVCapturePhotoOutput,
-                     didFinishCaptureFor resolvedSettings: AVCaptureResolvedPhotoSettings,
-                     error: Error?) {
-        
-        guard error == nil else {
-            print("Error in capture process: \(String(describing: error))")
-            return
+    // upload from camera roll
+    @IBAction func upload(_ sender: UIButton) {
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        imagePicker.sourceType = UIImagePickerController.SourceType.photoLibrary
+        imagePicker.allowsEditing = false
+        self.present(imagePicker, animated: true)
+        {
         }
     }
     
+    // Allows user to tap any point on the screen to focus the camera
+    public func focusAtAdjustedPointOfInterest(adjustedPoint: CGPoint) {
+        do {
+            try device.lockForConfiguration()
+            
+            if device.isFocusPointOfInterestSupported && device.isFocusModeSupported(.autoFocus) {
+                let focusMode = device.focusMode
+                device.focusPointOfInterest = adjustedPoint
+                device.focusMode = focusMode
+                print("focusing")
+            }
+            
+            device.unlockForConfiguration()
+        }
+        catch {
+            print("focusAtAdjustedPointOfInterest failed to lock device for configuration")
+        }
+    }
     
-    // Text recognition functions
+    // Text Recognition
     
+    // runs the text recognition model on given image
     func runTextRecognition(with image: UIImage) {
         self.imageTaken = image
+        print("here")
         // creates a vision image from the passed uiimage
         let visionImage = VisionImage(image: image)
         textRecognizer.process(visionImage) { features, error in
@@ -256,6 +265,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, AVCaptu
         }
     }
     
+    // handles the result of text recognition
     func processResult(from text: VisionText?, error: Error?) {
         guard error == nil, let text = text else {
             // no text detected
@@ -277,7 +287,88 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, AVCaptu
             previewVC.visionText = self.visionText
         }
     }
+}
+
+// MARK: - UIImagePickerControllerDelegate, UINavigationControllerDelegate
+
+extension ViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            self.runTextRecognition(with: image)
+        } else {
+            print("error")
+        }
+        self.dismiss(animated: false, completion: nil)
+    }
+    
+}
+
+// MARK: - UIGestureRecognizerDelegate
+
+extension ViewController: UIGestureRecognizerDelegate {
+    @objc internal func handleFocusTapGestureRecognizer(_ gestureRecognizer: UIGestureRecognizer) {
+        let tapPoint = gestureRecognizer.location(in: self.previewView)
+        
+        if let focusView = self.focusView {
+            var focusFrame = focusView.frame
+            focusFrame.origin.x = CGFloat((tapPoint.x - (focusFrame.size.width * 0.5)).rounded())
+            focusFrame.origin.y = CGFloat((tapPoint.y - (focusFrame.size.height * 0.5)).rounded())
+            focusView.frame = focusFrame
+            
+            self.previewView?.addSubview(focusView)
+            focusView.startAnimation()
+            print("focusing here")
+            
+            // stops animation after 0.4 seconds
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                focusView.stopAnimation()
+            }
+        }
+        
+        let adjustedPoint = previewLayer.captureDevicePointConverted(fromLayerPoint: tapPoint)
+        self.focusAtAdjustedPointOfInterest(adjustedPoint: adjustedPoint)
+    }
+}
+
+// MARK: - AVCapturePhotoCaptureDelegate
+
+extension ViewController: AVCapturePhotoCaptureDelegate {
+    
+    func photoOutput(_ output: AVCapturePhotoOutput,
+                     didFinishProcessingPhoto photo: AVCapturePhoto,
+                     error: Error?) {
+        print("photo taken")
+        
+        /*
+         // save to camera roll
+         PHPhotoLibrary.shared().performChanges( {
+         let creationRequest = PHAssetCreationRequest.forAsset()
+         creationRequest.addResource(with: PHAssetResourceType.photo, data: photo.fileDataRepresentation()!, options: nil)
+         }, completionHandler: nil)
+         */
+        
+        let cgImage = photo.cgImageRepresentation()!.takeUnretainedValue()
+        let testImage = UIImage(cgImage: cgImage, scale: 1, orientation: UIImage.Orientation.up)
+        // assumes that image orientation is .right (might need to fix this later)
+        let rotated = testImage.rotate(radians: .pi/2)
+        
+        self.runTextRecognition(with: rotated!)
+    }
+    
+    func photoOutput(_ captureOutput: AVCapturePhotoOutput,
+                     didFinishCaptureFor resolvedSettings: AVCaptureResolvedPhotoSettings,
+                     error: Error?) {
+        
+        guard error == nil else {
+            print("Error in capture process: \(String(describing: error))")
+            return
+        }
+    }
 }
 
 extension UIImage {
