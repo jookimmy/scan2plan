@@ -208,7 +208,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="camerabutton" width="440" height="439"/>
+        <image name="camerabutton" width="63.360000610351562" height="63.215999603271484"/>
         <image name="flash" width="512" height="512"/>
         <image name="importFromCameraRoll" width="720" height="720"/>
         <image name="switchCameraOrientation" width="200" height="200"/>

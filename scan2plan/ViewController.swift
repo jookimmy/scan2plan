@@ -97,6 +97,21 @@ class ViewController: UIViewController {
         })
         captureSession.commitConfiguration()
         
+        // gestures
+        self.gestureView = UIView(frame: bounds)
+        if let gestureView = self.gestureView {
+            gestureView.autoresizingMask = [.flexibleWidth, .flexibleBottomMargin]
+            gestureView.backgroundColor = .clear
+            self.view.addSubview(gestureView)
+            
+            self.focusTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.handleFocusTapGestureRecognizer(_:)))
+            if let focusTapGestureRecognizer = self.focusTapGestureRecognizer {
+                focusTapGestureRecognizer.delegate = self
+                focusTapGestureRecognizer.numberOfTapsRequired = 1
+                gestureView.addGestureRecognizer(focusTapGestureRecognizer)
+            }
+        }
+        
         // setup UI, location of buttons
         
         // lower buttons
@@ -112,21 +127,6 @@ class ViewController: UIViewController {
         // upper buttons
         self.cameraRollButton.frame = CGRect(x: (bounds.width*11)/12 - bounds.width/18, y: (bounds.height)/12, width: bounds.width/9, height: bounds.width/9)
         self.view.addSubview(cameraRollButton)
-        
-        // gestures
-        self.gestureView = UIView(frame: bounds)
-        if let gestureView = self.gestureView {
-            gestureView.autoresizingMask = [.flexibleWidth, .flexibleBottomMargin]
-            gestureView.backgroundColor = .clear
-            self.view.addSubview(gestureView)
-            
-            self.focusTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.handleFocusTapGestureRecognizer(_:)))
-            if let focusTapGestureRecognizer = self.focusTapGestureRecognizer {
-                focusTapGestureRecognizer.delegate = self
-                focusTapGestureRecognizer.numberOfTapsRequired = 1
-                gestureView.addGestureRecognizer(focusTapGestureRecognizer)
-            }
-        }
     }
     
     override func viewDidLayoutSubviews() {
