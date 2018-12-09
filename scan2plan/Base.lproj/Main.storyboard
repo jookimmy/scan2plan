@@ -17,47 +17,63 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oa0-jx-JnC">
-                                <rect key="frame" x="36" y="628" width="49" height="50"/>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="M49-Gn-fLw">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="75"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button" image="switchCameraOrientation"/>
-                                <connections>
-                                    <action selector="switchCameraOrientation:" destination="BYZ-38-t0r" eventType="touchUpInside" id="mN8-c6-fev"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y9a-EG-FZb">
-                                <rect key="frame" x="319" y="629" width="51" height="48"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y9a-EG-FZb">
+                                        <rect key="frame" x="355" y="27" width="51" height="48"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" image="flash"/>
+                                        <connections>
+                                            <action selector="useFlash:" destination="BYZ-38-t0r" eventType="touchUpInside" id="YHs-Ze-N38"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oa0-jx-JnC">
+                                        <rect key="frame" x="24" y="17" width="49" height="50"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="Button" image="switchCameraOrientation"/>
+                                        <connections>
+                                            <action selector="switchCameraOrientation:" destination="BYZ-38-t0r" eventType="touchUpInside" id="mN8-c6-fev"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iYt-JZ-3c3">
+                                <rect key="frame" x="0.0" y="635" width="414" height="101"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" image="flash"/>
-                                <connections>
-                                    <action selector="useFlash:" destination="BYZ-38-t0r" eventType="touchUpInside" id="YHs-Ze-N38"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KZM-lu-oEW">
-                                <rect key="frame" x="175" y="621" width="64" height="63"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
-                                <state key="normal" title="Take Photo" image="camerabutton"/>
-                                <connections>
-                                    <action selector="takePhoto:" destination="BYZ-38-t0r" eventType="touchUpInside" id="asJ-Q4-wpt"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u0t-6K-pdj">
-                                <rect key="frame" x="308" y="41" width="73" height="75"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" image="importFromCameraRoll"/>
-                                <connections>
-                                    <action selector="upload:" destination="BYZ-38-t0r" eventType="touchUpInside" id="cUn-lb-TqW"/>
-                                </connections>
-                            </button>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u0t-6K-pdj">
+                                        <rect key="frame" x="19" y="13" width="73" height="75"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" image="importFromCameraRoll"/>
+                                        <connections>
+                                            <action selector="upload:" destination="BYZ-38-t0r" eventType="touchUpInside" id="cUn-lb-TqW"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KZM-lu-oEW">
+                                        <rect key="frame" x="175" y="19" width="64" height="63"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                                        <state key="normal" title="Take Photo" image="camerabutton"/>
+                                        <connections>
+                                            <action selector="takePhoto:" destination="BYZ-38-t0r" eventType="touchUpInside" id="asJ-Q4-wpt"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="bottomToolBar" destination="iYt-JZ-3c3" id="HJY-KU-vpP"/>
                         <outlet property="cameraRollButton" destination="u0t-6K-pdj" id="Ama-Hm-ybu"/>
                         <outlet property="capturePhotoButton" destination="KZM-lu-oEW" id="i5Z-c4-SzI"/>
                         <outlet property="flashButton" destination="y9a-EG-FZb" id="JCU-jX-MgP"/>
                         <outlet property="flipCameraButton" destination="oa0-jx-JnC" id="yyS-bs-TTO"/>
+                        <outlet property="topToolBarView" destination="M49-Gn-fLw" id="5rW-oe-ccZ"/>
                         <segue destination="3la-a0-lMe" kind="show" identifier="photoTaken" id="ped-qZ-Ldo"/>
                     </connections>
                 </viewController>
