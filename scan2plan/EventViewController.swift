@@ -28,13 +28,10 @@ class EventViewController: UIViewController {
         //URLTextField.text = ""
         informationExtractor()
         detectEventName()
-        detectPlaceName()
-        
-        for block in visionText.blocks {
-            print(block.text)
-            print(block.frame.size.height)
+        if !(locationTextField .hasText) {
+            detectPlaceName()
         }
-        
+    
         // Do any additional setup after loading the view.
     }
     
@@ -95,8 +92,8 @@ class EventViewController: UIViewController {
                             if c == nil {
                                 continue
                             }
-                            addressComponents.append(" ")
-                            addressComponents.append(c)
+                            addressString.append(" ")
+                            addressString.append((c!))
                         }
                         locationTextField.text = addressString
                     }
