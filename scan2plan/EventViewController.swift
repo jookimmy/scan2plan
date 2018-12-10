@@ -28,6 +28,7 @@ class EventViewController: UIViewController {
         //URLTextField.text = ""
         informationExtractor()
         detectEventName()
+        detectPlaceName()
         
         for block in visionText.blocks {
             print(block.text)
@@ -51,6 +52,10 @@ class EventViewController: UIViewController {
             }
         }
         titleTextField.text = blockWithMax.capitalized
+    }
+    
+    func detectPlaceName() {
+        
     }
     func informationExtractor() {
         let charsToRemove: Set<Character> = Set("|{}[]()".characters)
