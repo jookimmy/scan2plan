@@ -47,7 +47,7 @@
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u0t-6K-pdj">
                                         <rect key="frame" x="19" y="13" width="73" height="75"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" image="importFromCameraRoll"/>
+                                        <state key="normal" image="upload"/>
                                         <connections>
                                             <action selector="upload:" destination="BYZ-38-t0r" eventType="touchUpInside" id="cUn-lb-TqW"/>
                                         </connections>
@@ -94,7 +94,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ABv-GZ-hQJ">
-                                <rect key="frame" x="110" y="663" width="30" height="30"/>
+                                <rect key="frame" x="83" y="663" width="57" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                                 <state key="normal" title="OK"/>
                                 <connections>
@@ -102,7 +102,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gge-ZO-fMy">
-                                <rect key="frame" x="233" y="663" width="48" height="30"/>
+                                <rect key="frame" x="271" y="663" width="61" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                                 <state key="normal" title="Cancel">
                                     <color key="titleColor" red="1" green="0.21524352629999999" blue="0.1811760781" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -226,10 +226,10 @@
     <resources>
         <image name="camerabutton" width="63.360000610351562" height="63.215999603271484"/>
         <image name="flash" width="512" height="512"/>
-        <image name="importFromCameraRoll" width="720" height="720"/>
         <image name="switchCameraOrientation" width="200" height="200"/>
+        <image name="upload" width="1200" height="1200"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="BgU-7w-PRH"/>
+        <segue reference="W65-0J-aYb"/>
     </inferredMetricsTieBreakers>
 </document>

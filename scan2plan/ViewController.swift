@@ -18,6 +18,7 @@ class ViewController: UIViewController {
     var captureSession: AVCaptureSession!
     var photoOutput = AVCapturePhotoOutput()
     var device: AVCaptureDevice!
+    let cameraPhotoSettings = AVCapturePhotoSettings()
     
     var flashMode = AVCaptureDevice.FlashMode.off
     
@@ -128,7 +129,7 @@ class ViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         let bounds:CGRect = self.view.layer.bounds
-        let backgroundColor = UIColor(hex: "33383e")
+        let backgroundColor = UIColor.black //UIColor(hex: "33383e")
         
         self.topToolBarView.frame = CGRect(x: 0, y: 0, width: bounds.width, height: bounds.height * 0.1)
         self.topToolBarView.backgroundColor = backgroundColor
@@ -177,9 +178,6 @@ class ViewController: UIViewController {
         }
         print([kCVPixelBufferPixelFormatTypeKey : arr[0]])
         
-        //creates capture photosettings object
-        let cameraPhotoSettings = AVCapturePhotoSettings()
-
         //take photo
         photoOutput.capturePhoto(with: cameraPhotoSettings, delegate: self)
     }
@@ -248,11 +246,13 @@ class ViewController: UIViewController {
     @IBAction func useFlash(_ sender: UIButton) {
         if self.flashMode == .on {
             self.flashMode = .off
+            self.cameraPhotoSettings.flashMode = .off
 //            toggleFlashButton.setImage(#imageLiteral(resourceName: "Flash Off Icon"), for: .normal)
         }
             
         else {
             self.flashMode = .on
+            self.cameraPhotoSettings.flashMode = .on
 //            toggleFlashButton.setImage(#imageLiteral(resourceName: "Flash On Icon"), for: .normal)
         }
     }
