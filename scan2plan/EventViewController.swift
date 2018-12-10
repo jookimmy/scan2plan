@@ -55,7 +55,20 @@ class EventViewController: UIViewController {
     }
     
     func detectPlaceName() {
+        let tagger = NSLinguisticTagger(tagSchemes: [.nameType], options: 0)
+        tagger.string = detectedText
+        let range = NSRange(location: 0, length: detectedText.utf16.count)
+        let options: NSLinguisticTagger.Options = [.omitPunctuation, .omitWhitespace, .joinNames]
+        let tags: [NSLinguisticTag] = [.placeName]
         
+        tagger.enumerateTags(in: range, unit: .word, scheme: .nameType, options: options) { tag, tokenRange, stop in
+            if let tag = tag, tags.contains(tag) {
+                if let range = Range(tokenRange, in: detectedText) {
+                    let name = detectedText[range]
+                    locationTextField.text = String(name)
+                }
+            }
+        }
     }
     func informationExtractor() {
         let charsToRemove: Set<Character> = Set("|{}[]()".characters)
