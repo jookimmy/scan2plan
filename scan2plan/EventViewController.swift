@@ -47,6 +47,9 @@ class EventViewController: UIViewController {
         cancelButton.addShadow()
         addEventButton.addShadow()
         topView.addShadow()
+        
+        self.titleTextField.delegate = self
+        self.locationTextField.delegate = self
     }
     
     override func didReceiveMemoryWarning() {
@@ -193,5 +196,14 @@ class EventViewController: UIViewController {
      // Pass the selected object to the new view controller.
      }
      */
+    
+}
+
+extension EventViewController: UITextFieldDelegate {
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return false
+    }
     
 }
