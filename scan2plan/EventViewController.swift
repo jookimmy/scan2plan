@@ -28,12 +28,10 @@ class EventViewController: UIViewController {
         //URLTextField.text = ""
         informationExtractor()
         detectEventName()
-        
-        for block in visionText.blocks {
-            print(block.text)
-            print(block.frame.size.height)
+        if !(locationTextField .hasText) {
+            detectPlaceName()
         }
-        
+    
         // Do any additional setup after loading the view.
     }
     
@@ -51,6 +49,23 @@ class EventViewController: UIViewController {
             }
         }
         titleTextField.text = blockWithMax.capitalized
+    }
+    
+    func detectPlaceName() {
+        let tagger = NSLinguisticTagger(tagSchemes: [.nameType], options: 0)
+        tagger.string = detectedText
+        let range = NSRange(location: 0, length: detectedText.utf16.count)
+        let options: NSLinguisticTagger.Options = [.omitPunctuation, .omitWhitespace, .joinNames]
+        let tags: [NSLinguisticTag] = [.placeName]
+        
+        tagger.enumerateTags(in: range, unit: .word, scheme: .nameType, options: options) { tag, tokenRange, stop in
+            if let tag = tag, tags.contains(tag) {
+                if let range = Range(tokenRange, in: detectedText) {
+                    let name = detectedText[range]
+                    locationTextField.text = String(name)
+                }
+            }
+        }
     }
     func informationExtractor() {
         let charsToRemove: Set<Character> = Set("|{}[]()".characters)
@@ -77,8 +92,8 @@ class EventViewController: UIViewController {
                             if c == nil {
                                 continue
                             }
-                            addressComponents.append(" ")
-                            addressComponents.append(c)
+                            addressString.append(" ")
+                            addressString.append((c!))
                         }
                         locationTextField.text = addressString
                     }
