@@ -164,7 +164,7 @@ class EventViewController: UIViewController {
                     print(error)
                 }
             } else {
-                print("error: \(error)")
+                print("error: \(String(describing: error))")
             }
         })
         

@@ -18,6 +18,9 @@ class ViewController: UIViewController {
     var captureSession: AVCaptureSession!
     var photoOutput = AVCapturePhotoOutput()
     var device: AVCaptureDevice!
+    let cameraPhotoSettings = AVCapturePhotoSettings()
+    
+    var flashMode = AVCaptureDevice.FlashMode.off
     
     var previewLayer: AVCaptureVideoPreviewLayer!
     internal var previewView: UIView?
@@ -34,7 +37,8 @@ class ViewController: UIViewController {
     var visionText: VisionText!
     
     //MARK: Outlets
-    
+    @IBOutlet weak var topToolBarView: UIView!
+    @IBOutlet weak var bottomToolBar: UIView!
     @IBOutlet weak var cameraRollButton: UIButton!
     @IBOutlet weak var flashButton: UIButton!
     @IBOutlet weak var flipCameraButton: UIButton!
@@ -62,8 +66,10 @@ class ViewController: UIViewController {
         captureSession.beginConfiguration()
         captureSession.sessionPreset = AVCaptureSession.Preset.photo
         
+
         //Ask permission to camera
         let discoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera], mediaType: AVMediaType.video, position: .back)
+//        print(discoverySession.)
         
         let devices = discoverySession.devices
         self.device = devices.first
@@ -81,9 +87,13 @@ class ViewController: UIViewController {
                             self.captureSession.addOutput(self.photoOutput)
                             self.previewLayer = AVCaptureVideoPreviewLayer(session: self.captureSession)
                             self.previewLayer?.videoGravity = AVLayerVideoGravity.resizeAspectFill
-                            self.previewLayer?.bounds = bounds
-                            self.previewLayer?.position = CGPoint(x: bounds.midX, y: bounds.midY)
-                            self.previewView?.layer.addSublayer(self.previewLayer)
+                            // This UI Stuff needs to run on the main thread
+                            DispatchQueue.main.async {
+                                self.previewLayer?.frame = bounds
+                                self.previewLayer?.position = CGPoint(x: bounds.midX, y: bounds.height * 0.477)
+                                self.previewView?.frame = self.previewLayer.bounds
+                                self.previewView?.layer.addSublayer(self.previewLayer)
+                            }
                             self.captureSession.startRunning()
                             print("Session is running")
                         }
@@ -95,14 +105,16 @@ class ViewController: UIViewController {
                 print("Access to camera denied")
             }
         })
-        captureSession.commitConfiguration()
+        
+        self.captureSession.commitConfiguration()
         
         // gestures
-        self.gestureView = UIView(frame: bounds)
+        self.gestureView = UIView(frame: (self.previewView?.bounds)!)
         if let gestureView = self.gestureView {
             gestureView.autoresizingMask = [.flexibleWidth, .flexibleBottomMargin]
             gestureView.backgroundColor = .clear
-            self.view.addSubview(gestureView)
+//            gestureView.bounds = (self.previewView?.bounds)!
+            self.previewView!.addSubview(gestureView)
             
             self.focusTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.handleFocusTapGestureRecognizer(_:)))
             if let focusTapGestureRecognizer = self.focusTapGestureRecognizer {
@@ -112,25 +124,40 @@ class ViewController: UIViewController {
             }
         }
         
-        // setup UI, location of buttons
-        
-        // lower buttons
-        self.capturePhotoButton.frame = CGRect(x: bounds.width/2 - bounds.width/12, y: (bounds.height * 8.5)/10, width: bounds.width/6, height: bounds.width/6)
-        self.view.addSubview(capturePhotoButton)
-        
-        self.flipCameraButton.frame = CGRect(x: bounds.width/5 - bounds.width/20, y: (bounds.height * 8.5)/10, width: bounds.width/10, height: bounds.width/10)
-        self.view.addSubview(flipCameraButton)
-        
-        self.flashButton.frame = CGRect(x: (bounds.width*4)/5 - bounds.width/20, y: (bounds.height * 8.5)/10, width: bounds.width/10, height: bounds.width/10)
-        self.view.addSubview(flashButton)
-        
-        // upper buttons
-        self.cameraRollButton.frame = CGRect(x: (bounds.width*11)/12 - bounds.width/18, y: (bounds.height)/12, width: bounds.width/9, height: bounds.width/9)
-        self.view.addSubview(cameraRollButton)
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        let bounds:CGRect = self.view.layer.bounds
+        let backgroundColor = UIColor.black //UIColor(hex: "33383e")
+        
+        self.topToolBarView.frame = CGRect(x: 0, y: 0, width: bounds.width, height: bounds.height * 0.1)
+        self.topToolBarView.backgroundColor = backgroundColor
+        
+        self.bottomToolBar.frame = CGRect(x: 0, y: bounds.height * 0.85, width: bounds.width, height: bounds.height * 0.15)
+        self.bottomToolBar.backgroundColor = backgroundColor
+        
+        if let topToolBarView = self.topToolBarView {
+            print("here")
+            self.flipCameraButton.frame = CGRect(x: bounds.width/10, y: bounds.height/20, width: bounds.width/13, height: bounds.width/13)
+            self.flipCameraButton.center = CGPoint(x: topToolBarView.bounds.width/10, y: topToolBarView.bounds.height*0.55)
+            topToolBarView.addSubview(flipCameraButton)
+            
+            self.flashButton.frame = CGRect(x: (bounds.width*9)/10, y: bounds.height/20, width: bounds.width/13, height: bounds.width/13)
+            self.flashButton.center = CGPoint(x: topToolBarView.bounds.width*9/10, y: topToolBarView.bounds.height*0.55)
+            topToolBarView.addSubview(flashButton)
+        }
+        
+        if let bottomToolBar = self.bottomToolBar {
+            print("here")
+            self.capturePhotoButton.frame = CGRect(x: bounds.width/2 - bounds.width/12, y: bottomToolBar.bounds.height/2 - bounds.width/12, width: bounds.width/6, height: bounds.width/6)
+            bottomToolBar.addSubview(capturePhotoButton)
+            
+            self.cameraRollButton.frame = CGRect(x: bounds.width/12, y: bottomToolBar.bounds.height/2 - bounds.width/20, width: bounds.width/10, height: bounds.width/10)
+            bottomToolBar.addSubview(cameraRollButton)
+        }
+        self.view?.addSubview(self.topToolBarView)
+        self.view?.addSubview(self.bottomToolBar)
     }
     
     
@@ -151,9 +178,6 @@ class ViewController: UIViewController {
         }
         print([kCVPixelBufferPixelFormatTypeKey : arr[0]])
         
-        //creates capture photosettings object
-        let cameraPhotoSettings = AVCapturePhotoSettings()
-
         //take photo
         photoOutput.capturePhoto(with: cameraPhotoSettings, delegate: self)
     }
@@ -220,6 +244,17 @@ class ViewController: UIViewController {
     
     // Implement later
     @IBAction func useFlash(_ sender: UIButton) {
+        if self.flashMode == .on {
+            self.flashMode = .off
+            self.cameraPhotoSettings.flashMode = .off
+//            toggleFlashButton.setImage(#imageLiteral(resourceName: "Flash Off Icon"), for: .normal)
+        }
+            
+        else {
+            self.flashMode = .on
+            self.cameraPhotoSettings.flashMode = .on
+//            toggleFlashButton.setImage(#imageLiteral(resourceName: "Flash On Icon"), for: .normal)
+        }
     }
     
     // upload from camera roll
@@ -273,6 +308,7 @@ class ViewController: UIViewController {
             return
         }
         self.visionText = text
+        print(text.text)
         self.performSegue(withIdentifier: "photoTaken", sender: nil)
     }
     
@@ -392,5 +428,26 @@ extension UIImage {
         UIGraphicsEndImageContext()
         
         return newImage
+    }
+}
+
+extension UIColor {
+    convenience init(hex: String) {
+        let scanner = Scanner(string: hex)
+        scanner.scanLocation = 0
+        
+        var rgbValue: UInt64 = 0
+        
+        scanner.scanHexInt64(&rgbValue)
+        
+        let r = (rgbValue & 0xff0000) >> 16
+        let g = (rgbValue & 0xff00) >> 8
+        let b = rgbValue & 0xff
+        
+        self.init(
+            red: CGFloat(r) / 0xff,
+            green: CGFloat(g) / 0xff,
+            blue: CGFloat(b) / 0xff, alpha: 1
+        )
     }
 }
