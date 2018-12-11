@@ -129,7 +129,7 @@ class ViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         let bounds:CGRect = self.view.layer.bounds
-        let backgroundColor = UIColor.black //UIColor(hex: "33383e")
+        let backgroundColor = UIColor(hex: "33383e")
         
         self.topToolBarView.frame = CGRect(x: 0, y: 0, width: bounds.width, height: bounds.height * 0.1)
         self.topToolBarView.backgroundColor = backgroundColor
@@ -177,7 +177,7 @@ class ViewController: UIViewController {
             // Fallback on earlier versions
         }
         print([kCVPixelBufferPixelFormatTypeKey : arr[0]])
-        
+        print(cameraPhotoSettings)
         //take photo
         photoOutput.capturePhoto(with: cameraPhotoSettings, delegate: self)
     }
@@ -247,13 +247,14 @@ class ViewController: UIViewController {
         if self.flashMode == .on {
             self.flashMode = .off
             self.cameraPhotoSettings.flashMode = .off
-//            toggleFlashButton.setImage(#imageLiteral(resourceName: "Flash Off Icon"), for: .normal)
+            self.flashButton.setImage(UIImage(named: "FlashOff"), for: UIControl.State.normal)
+            
         }
             
         else {
             self.flashMode = .on
             self.cameraPhotoSettings.flashMode = .on
-//            toggleFlashButton.setImage(#imageLiteral(resourceName: "Flash On Icon"), for: .normal)
+            self.flashButton.setImage(UIImage(named: "FlashOn"), for: UIControl.State.normal)
         }
     }
     
@@ -291,24 +292,29 @@ class ViewController: UIViewController {
     
     // runs the text recognition model on given image
     func runTextRecognition(with image: UIImage) {
-        self.imageTaken = image
         print("here")
         // creates a vision image from the passed uiimage
         let visionImage = VisionImage(image: image)
         textRecognizer.process(visionImage) { features, error in
-            self.processResult(from: features, error: error)
+            self.processResult(from: features, error: error, image: image)
         }
     }
     
     // handles the result of text recognition
-    func processResult(from text: VisionText?, error: Error?) {
+    func processResult(from text: VisionText?, error: Error?, image: UIImage) {
         guard error == nil, let text = text else {
             // no text detected
+            let alert = UIAlertController(title: "No Text Detected", message: "Please try again.", preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: {(alert: UIAlertAction!) in print("Didn't work")}))
+            self.present(alert, animated: true)
+            
             print("oops")
             return
         }
+        print("got here")
         self.visionText = text
         print(text.text)
+        self.imageTaken = image
         self.performSegue(withIdentifier: "photoTaken", sender: nil)
     }
     

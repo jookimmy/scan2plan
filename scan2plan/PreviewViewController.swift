@@ -21,18 +21,28 @@ class PreviewViewController: UIViewController {
     var visionText: VisionText!
     
     // MARK: Outlets
-    
     @IBOutlet weak var previewImage: UIImageView!
+    @IBOutlet weak var cancelButton: UIButton!
+    @IBOutlet weak var okButton: UIButton!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        cancelButton.layer.cornerRadius = cancelButton.bounds.height / 4
+        okButton.layer.cornerRadius = okButton.bounds.height / 4
+        
+        cancelButton.addShadow()
+        okButton.addShadow()
+        
         let widthHeightRatio = capturedPhoto.size.width/capturedPhoto.size.height
-        let width = self.previewImage.frame.width
-        let height = width / widthHeightRatio
+//        let width = self.previewImage.frame.width
+        let height = self.view.frame.height * 0.75
+        let width = height * widthHeightRatio
         previewImage.frame.size = CGSize(width: width, height: height)
         
-        previewImage.center = self.view.center
+        let screenHeight = self.view.bounds.height
+        previewImage.center = CGPoint(x: self.view.center.x, y: self.view.center.y - (screenHeight / 18))
         previewImage.addShadow()
         
         // set image display to photo captured in previous vc
@@ -165,9 +175,9 @@ extension UIView {
     
     func addShadow() {
         layer.shadowColor = UIColor.black.cgColor
-        layer.shadowOffset = CGSize(width: 0, height: 0)
-        layer.shadowOpacity = 0.5
-        layer.shadowRadius = 5
+        layer.shadowOffset = CGSize(width: 3, height: 3)
+        layer.shadowOpacity = 0.16
+        layer.shadowRadius = 1
         clipsToBounds = false
     }
 }

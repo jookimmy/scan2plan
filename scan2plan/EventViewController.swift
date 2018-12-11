@@ -16,12 +16,20 @@ class EventViewController: UIViewController {
     @IBOutlet weak var locationTextField: UITextField!
     @IBOutlet weak var startDateTimeField: UIDatePicker!
     
+    // MARK: Outlets
+    @IBOutlet weak var cancelButton: UIButton!
+    @IBOutlet weak var addEventButton: UIButton!
+    @IBOutlet weak var topView: UIView!
+    
     // Passed from PreviewViewController
     var detectedText = String()
     var visionText: VisionText!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+//        startDateTimeField.setValue(UIColor.white, forKeyPath: "textColor")
+        
         startDateTimeField.date = createDate(year: 2018, month: 11, day: 8, hour: 19, minute: 30)
         titleTextField.text = ""
         locationTextField.text = ""
@@ -31,8 +39,14 @@ class EventViewController: UIViewController {
         if !(locationTextField .hasText) {
             detectPlaceName()
         }
-    
+        
         // Do any additional setup after loading the view.
+        cancelButton.layer.cornerRadius = cancelButton.bounds.height / 4
+        addEventButton.layer.cornerRadius = addEventButton.bounds.height / 4
+        
+        cancelButton.addShadow()
+        addEventButton.addShadow()
+        topView.addShadow()
     }
     
     override func didReceiveMemoryWarning() {
