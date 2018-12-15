@@ -177,15 +177,24 @@ class EventViewController: UIViewController {
                 event.calendar = eventStore.defaultCalendarForNewEvents
                 do {
                     try eventStore.save(event, span: .thisEvent)
+                    let alert = UIAlertController(title: "Event Added", message: "Event has been added to your calendar!", preferredStyle: UIAlertController.Style.alert)
+                    alert.addAction(UIAlertAction(title: "Event Added", style: UIAlertAction.Style.default, handler: {(alert: UIAlertAction!) in self.performSegue(withIdentifier: "returnToCamera", sender: self)}))
+                    self.present(alert, animated: true)
                 } catch let error as NSError {
                     print(error)
+                    let alert = UIAlertController(title: "Error", message: "An error has occurred, the event has not been added to your calendar. Please try again.", preferredStyle: UIAlertController.Style.alert)
+                    alert.addAction(UIAlertAction(title: "Error", style: UIAlertAction.Style.default, handler: {(alert: UIAlertAction!) in print("error adding event to calendar")}))
                 }
             } else {
                 print("error: \(String(describing: error))")
+                if (!granted) {
+                    let alert = UIAlertController(title: "Access not granted", message: "Please go to Settings > Scan 2 Plan and allow access to calendar.", preferredStyle: UIAlertController.Style.alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: {(alert: UIAlertAction!) in print("access not granted")}))
+                }
+                let alert = UIAlertController(title: "Error", message: "An error has occurred, the event has not been added to your calendar. Please try again.", preferredStyle: UIAlertController.Style.alert)
+                alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: {(alert: UIAlertAction!) in print("error occurred")}))
             }
         })
-        
-        self.performSegue(withIdentifier: "returnToCamera", sender: self)
     }
     
     /*
