@@ -87,6 +87,22 @@ class EventViewController: UIViewController {
     func informationExtractor() {
         let charsToRemove: Set<Character> = Set("|{}[]()".characters)
         let eventString = String(detectedText.characters.filter { !charsToRemove.contains($0) })
+        
+        var words = eventString.split(separator: " ")
+        
+        for i in 0..<words.endIndex {
+            if !self.isReal(word: String(words[i])) {
+                let checker = UITextChecker()
+                let range = NSRange(location: 0, length: words[i].utf16.count)
+                let guesses = checker.guesses(forWordRange: range, in: String(words[i]), language: "en")
+                do {
+                    words[i] = Substring((guesses?.first)!)
+                } catch {
+                    print("oops")
+                }
+            }
+        }
+        
         let range = NSRange(eventString.startIndex..<eventString.endIndex, in: eventString)
         let detectionTypes: NSTextCheckingResult.CheckingType = [.date, .address, .link]
         
@@ -211,6 +227,14 @@ class EventViewController: UIViewController {
      // Pass the selected object to the new view controller.
      }
      */
+    
+    func isReal(word: String) -> Bool {
+        let checker = UITextChecker()
+        let range = NSRange(location: 0, length: word.utf16.count)
+        let misspelled = checker.rangeOfMisspelledWord(in: word, range: range, startingAt: 0, wrap: false, language: "en")
+        
+        return misspelled.location == NSNotFound
+    }
     
 }
 
