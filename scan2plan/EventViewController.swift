@@ -86,7 +86,7 @@ class EventViewController: UIViewController {
     }
     func informationExtractor() {
         let charsToRemove: Set<Character> = Set("|{}[]()".characters)
-        let eventString = String(detectedText.characters.filter { !charsToRemove.contains($0) })
+        var eventString = String(detectedText.characters.filter { !charsToRemove.contains($0) })
         
         var words = eventString.split(separator: " ")
         
@@ -102,6 +102,8 @@ class EventViewController: UIViewController {
                 }
             }
         }
+        
+        eventString = words.joined(separator: " ")
         
         let range = NSRange(eventString.startIndex..<eventString.endIndex, in: eventString)
         let detectionTypes: NSTextCheckingResult.CheckingType = [.date, .address, .link]
