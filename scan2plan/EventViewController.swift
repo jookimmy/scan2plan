@@ -27,8 +27,7 @@ class EventViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-//        startDateTimeField.setValue(UIColor.white, forKeyPath: "textColor")
+        detectedText = self.correctSpelling(input: detectedText)
         
         startDateTimeField.date = createDate(year: 2018, month: 11, day: 8, hour: 19, minute: 30)
         titleTextField.text = ""
@@ -78,7 +77,7 @@ class EventViewController: UIViewController {
         tagger.enumerateTags(in: range, unit: .word, scheme: .nameType, options: options) { tag, tokenRange, stop in
             if let tag = tag, tags.contains(tag) {
                 if let range = Range(tokenRange, in: detectedText) {
-                    let name = detectedText[range]
+                    let name = self.correctSpelling(input: String(detectedText[range]))
                     locationTextField.text = String(name)
                 }
             }
@@ -87,23 +86,8 @@ class EventViewController: UIViewController {
     func informationExtractor() {
         let charsToRemove: Set<Character> = Set("|{}[]()".characters)
         var eventString = String(detectedText.characters.filter { !charsToRemove.contains($0) })
-        
-        var words = eventString.split(separator: " ")
-        
-        for i in 0..<words.endIndex {
-            if !self.isReal(word: String(words[i])) {
-                let checker = UITextChecker()
-                let range = NSRange(location: 0, length: words[i].utf16.count)
-                let guesses = checker.guesses(forWordRange: range, in: String(words[i]), language: "en")
-                do {
-                    words[i] = Substring((guesses?.first)!)
-                } catch {
-                    print("oops")
-                }
-            }
-        }
-        
-        eventString = words.joined(separator: " ")
+    
+        eventString = self.correctSpelling(input: eventString)
         
         let range = NSRange(eventString.startIndex..<eventString.endIndex, in: eventString)
         let detectionTypes: NSTextCheckingResult.CheckingType = [.date, .address, .link]
@@ -236,6 +220,30 @@ class EventViewController: UIViewController {
         let misspelled = checker.rangeOfMisspelledWord(in: word, range: range, startingAt: 0, wrap: false, language: "en")
         
         return misspelled.location == NSNotFound
+    }
+    
+    func correctSpelling(input: String) -> String {
+        var words = input.split(separator: " ")
+        
+        for i in 0..<words.endIndex {
+            if !self.isReal(word: String(words[i])) {
+                print(words[i])
+                let checker = UITextChecker()
+                let range = NSRange(location: 0, length: words[i].utf16.count)
+                let guesses = checker.guesses(forWordRange: range, in: String(words[i]), language: "en")
+                print(guesses)
+                
+                if let guess = guesses?.first {
+                    words[i] = Substring(guess)
+                } else {
+                    print("oops")
+                }
+            }
+        }
+        let output = words.joined(separator: " ")
+        print(output)
+        
+        return output
     }
     
 }

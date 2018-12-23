@@ -341,6 +341,20 @@ extension ViewController: UIImagePickerControllerDelegate, UINavigationControlle
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            let orientation = image.imageOrientation
+            var rotated = image.rotate(radians: -.pi/2)!
+            
+//            if orientation == .right {
+//                rotated = image.rotate(radians: .pi/2)!
+//                print("right")
+//            } else if orientation == .left {
+//                rotated = image.rotate(radians: -.pi/2)!
+//                print("left")
+//            } else if orientation == .down {
+//                rotated = image.rotate(radians: .pi)!
+//                print("down")
+//            }
+            
             self.runTextRecognition(with: image)
         } else {
             print("error")
